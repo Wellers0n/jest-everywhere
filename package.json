@@ -1,0 +1,16 @@
+{
+  "name": "jest-everywhere",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Wellers0n/jest-everywhere.git",
+  "author": "Wellerson <wllrsn.c@gmail.com>",
+  "license": "MIT",
+  "private": true,
+    "workspaces": {
+    "packages": [
+      "packages/client",
+      "packages/server-nestjs",
+      "packages/server-fastify"
+    ]
+  }
+}
