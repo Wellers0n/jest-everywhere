@@ -1,0 +1,37 @@
+name: Running tests
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_TEST_URL: postgresql://postgres:docker@localhost:5433/test?schema=test
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        yarn
+
+    - name: Build and run PostgreSQL
+      run: |
+        docker-compose up -d
+
+    - name: Run tests server
+      run: |
+        yarn test:server
+
+    - name: Run tests client
+      run: |
+        yarn test:client
+
+    - name: Stop PostgreSQL container
+      run: |
+        docker-compose down
