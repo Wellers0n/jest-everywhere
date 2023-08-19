@@ -24,13 +24,9 @@ jobs:
       run: |
         docker-compose up -d
 
-    - name: Run tests server
+    - name: Run server-nestjs tests
       run: |
-        yarn test:server
-
-    - name: Run tests client
-      run: |
-        yarn test:client
+        yarn test:server-nestjs:e2e
 
     - name: Stop PostgreSQL container
       run: |
