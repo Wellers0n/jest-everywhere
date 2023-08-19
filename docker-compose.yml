@@ -1,0 +1,45 @@
+version: '3.7'
+services:
+  postgres-db:
+    container_name: edge-postgres
+    image: postgres:alpine
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=edge
+    logging:
+        options:
+          max-size: 10m
+          max-file: "3"
+    volumes:
+      - './postgres-data/volume/bk:/bk'
+      - './postgres-data/volume/data:/var/lib/postgresql/data'
+    networks:
+      - network-edge
+  postgres-test-db:
+    container_name: postgres-test-db
+    image: postgres:alpine
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=test
+    logging:
+        options:
+          max-size: 10m
+          max-file: "3"
+    networks:
+      - network-test-db
+    
+volumes:
+  postgres-data:
+networks:
+  network-edge:
+    driver: bridge
+  network-test-db:
+    driver: bridge
