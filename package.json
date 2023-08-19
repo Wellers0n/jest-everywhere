@@ -6,6 +6,10 @@
   "author": "Wellerson <wllrsn.c@gmail.com>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "test:server-nestjs:e2e": "yarn workspace @jest-everywhere/server-nestjs run test:e2e"
+
+  },
     "workspaces": {
     "packages": [
       "packages/client",
