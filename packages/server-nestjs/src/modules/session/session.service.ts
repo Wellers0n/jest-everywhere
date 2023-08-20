@@ -14,11 +14,11 @@ export class SessionService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async signIn(data: LoginBodyDTO) {
     const { email, password } = data;
-    
+
     const user = await this.usersService.findByEmail({ email });
 
     if (!user) throw new BadRequestException('Email or password incorrect');
@@ -30,8 +30,11 @@ export class SessionService {
     }
 
     const payload = { id: user.id, username: user.name };
+
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: await this.jwtService.signAsync(payload, {
+        secret: process.env.JWT_SECRET
+      }),
       message: 'Login com sucesso',
     };
   }
@@ -41,13 +44,15 @@ export class SessionService {
 
     const userExist = await this.usersService.findByEmail({ email });
 
-    if (userExist) throw new ConflictException();
+    if (userExist) throw new ConflictException('Usuário já existe');
 
     const user = await this.usersService.create({ email, name, password });
 
     const payload = { id: user.id, username: user.name };
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: await this.jwtService.signAsync(payload, {
+        secret: process.env.JWT_SECRET
+      }),
       message: 'Registrado com sucesso',
     };
   }

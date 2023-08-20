@@ -32,7 +32,7 @@ export class SessionController {
   @ApiConflictResponse({ type: AuthConflictResponse })
   @HttpCode(HttpStatus.OK)
   @Post('register')
-  getProfile(@Body() body: RegisterBodyDTO) {
+  register(@Body() body: RegisterBodyDTO) {
     const { email, password, name } = body;
     return this.sessionService.register({ name, email, password });
   }
