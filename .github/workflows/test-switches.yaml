@@ -23,8 +23,12 @@ jobs:
     - name: Build and run PostgreSQL
       run: |
         docker-compose up -d
+    
+     - name: Run server-nestjs tests
+      run: |
+        yarn test:server-nestjs
 
-    - name: Run server-nestjs tests
+    - name: Run server-nestjs e2e tests
       run: |
         yarn test:server-nestjs:e2e
 
