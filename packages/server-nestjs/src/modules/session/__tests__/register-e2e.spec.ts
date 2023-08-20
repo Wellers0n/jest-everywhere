@@ -102,7 +102,7 @@ describe('AppController (e2e)', () => {
       });
 
     expect(response.statusCode).toBe(409);
-    expect(response.body.message).toBe('Conflict');
+    expect(response.body.message).toBe('Usuário já existe');
     expect(response.body.access_token).toBeFalsy();
   });
 });
