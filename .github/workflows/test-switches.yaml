@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DATABASE_TEST_URL: postgresql://postgres:docker@localhost:5433/test?schema=test
+      JWT_SECRET: batman
 
     steps:
     - name: Checkout code
@@ -23,8 +23,12 @@ jobs:
     - name: Build and run PostgreSQL
       run: |
         docker-compose up -d
+    
+    - name: Run server-nestjs unit tests
+      run: |
+        yarn test:server-nestjs
 
-    - name: Run server-nestjs tests
+    - name: Run server-nestjs e2e tests
       run: |
         yarn test:server-nestjs:e2e
 

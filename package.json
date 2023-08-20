@@ -7,8 +7,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "start:server-nestjs": "yarn workspace @jest-everywhere/server-nestjs run start",
+    "dev:server-nestjs": "yarn workspace @jest-everywhere/server-nestjs run start:dev",
+    "test:server-nestjs": "yarn workspace @jest-everywhere/server-nestjs run test",
     "test:server-nestjs:e2e": "yarn workspace @jest-everywhere/server-nestjs run test:e2e"
-
   },
     "workspaces": {
     "packages": [
