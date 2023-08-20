@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DATABASE_TEST_URL: postgresql://postgres:docker@localhost:5433/test?schema=test
       JWT_SECRET: batman
 
     steps:
