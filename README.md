@@ -17,7 +17,7 @@
 
 ## Fullstack typescript/javascript
 
-Monorepo-edge uses a stack full `JS/TS` on the frontend and backend, I'm making this project to improve
+Jest-everywhere uses a stack full `JS/TS` on the frontend and backend, I'm making this project to improve
 my skills!
 
 ## Node version
