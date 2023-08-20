@@ -26,9 +26,12 @@ describe('Session register', () => {
 
   it('Successful registration', async () => {
     const user = {
+      id: faker.number.int(),
       email: faker.internet.email(),
       password: faker.internet.password(),
       name: faker.internet.userName(),
+      createdAt: faker.date.anytime(),
+      updatedAt: faker.date.anytime(),
     };
 
 
@@ -59,9 +62,9 @@ describe('Session register', () => {
     prisma.user.findFirst = jest.fn().mockReturnValueOnce(user);
 
     const response = sessionController.register({
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      name: faker.internet.userName()
+      email: user.email,
+      password: user.password,
+      name: user.name
     })
 
     await expect(response).rejects.toEqual(new ConflictException('Usuário já existe'))
