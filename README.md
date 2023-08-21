@@ -53,14 +53,6 @@ run application:
  yarn start
 ```
 
-## Run migrations and seed
-
-- NOTE: Wait for docker-compose or start postgres locally, to run the following command
-
-```sh
-yarn migration:deploy
-```
-
 ## Listening in
 
 frontend port: `http://localhost:3000`
