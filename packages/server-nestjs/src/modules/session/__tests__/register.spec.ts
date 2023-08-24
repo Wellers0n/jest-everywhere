@@ -13,6 +13,15 @@ describe('Session register', () => {
   let sessionController: SessionController;
   let prisma: PrismaService
 
+  const user = {
+    id: faker.number.int(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+    createdAt: faker.date.anytime(),
+    updatedAt: faker.date.anytime(),
+  };
+
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [SessionController],
@@ -25,15 +34,6 @@ describe('Session register', () => {
   });
 
   it('Successful registration', async () => {
-    const user = {
-      id: faker.number.int(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      name: faker.internet.userName(),
-      createdAt: faker.date.anytime(),
-      updatedAt: faker.date.anytime(),
-    };
-
 
     prisma.user.findFirst = jest.fn().mockReturnValueOnce(null);
     prisma.user.create = jest.fn().mockReturnValueOnce(user);
@@ -50,14 +50,6 @@ describe('Session register', () => {
   });
 
   it('User exists', async () => {
-    const user = {
-      id: faker.number.int(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      name: faker.internet.userName(),
-      createdAt: faker.date.anytime(),
-      updatedAt: faker.date.anytime(),
-    };
 
     prisma.user.findFirst = jest.fn().mockReturnValueOnce(user);
 

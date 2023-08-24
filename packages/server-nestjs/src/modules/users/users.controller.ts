@@ -59,7 +59,7 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: UserOkResponse })
   @ApiUnauthorizedResponse({ type: UserUnauthorizedResponse })
-  findById(@Param() param: FindOneUserParamDTO): Promise<UserEntity> {
+  findOne(@Param() param: FindOneUserParamDTO): Promise<UserEntity> {
     const { id } = param;
     return this.usersService.findOne({ id: Number(id) });
   }

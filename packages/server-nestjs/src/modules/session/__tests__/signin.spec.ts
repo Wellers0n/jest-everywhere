@@ -14,6 +14,15 @@ describe('session login', () => {
   let sessionController: SessionController;
   let prisma: PrismaService
 
+  const user = {
+    id: faker.number.int(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+    createdAt: faker.date.anytime(),
+    updatedAt: faker.date.anytime(),
+  };
+
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [SessionController],
@@ -26,15 +35,6 @@ describe('session login', () => {
   });
 
   it('login with success', async () => {
-    const user = {
-      id: faker.number.int(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      name: faker.internet.userName(),
-      createdAt: faker.date.anytime(),
-      updatedAt: faker.date.anytime(),
-    };
-
 
     prisma.user.findFirst = jest.fn().mockReturnValueOnce(user);
     bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
@@ -64,14 +64,6 @@ describe('session login', () => {
   });
 
   it('Login with password incorrect', async () => {
-    const user = {
-      id: faker.number.int(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      name: faker.internet.userName(),
-      createdAt: faker.date.anytime(),
-      updatedAt: faker.date.anytime(),
-    };
 
     prisma.user.findFirst = jest.fn().mockReturnValueOnce(user);
     bcrypt.compareSync = jest.fn().mockReturnValueOnce(false);
