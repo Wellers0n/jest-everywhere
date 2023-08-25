@@ -6,10 +6,8 @@ import * as bcrypt from 'bcryptjs';
 import { LoginBodyDTO } from './dtos/login-body.dto';
 import { RegisterBodyDTO } from './dtos/register-body.dto';
 import { UsersService } from '../users/users.service';
-import { JwtService } from '@nestjs/jwt';
 import { BadRequestException, ConflictException } from '@nestjs/common';
-import { UserRepository } from '../users/users.repository';
-import { PrismaService } from '@/database/prismaServices';
+import { SessionModule } from './session.module';
 
 
 describe('Session service', () => {
@@ -38,13 +36,7 @@ describe('Session service', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      providers: [
-        SessionService,
-        JwtService,
-        UsersService,
-        UserRepository,
-        PrismaService
-      ],
+      imports: [SessionModule],
     }).compile();
 
     sessionService = app.get<SessionService>(SessionService);
@@ -57,9 +49,7 @@ describe('Session service', () => {
     bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
     usersService.findByEmail = jest.fn().mockReturnValueOnce(userMock);
 
-
     const response = await sessionService.signIn(userMockSignIn)
-
 
     expect(response.access_token).toBeTruthy();
     expect(response.message).toBe('Login com sucesso');
@@ -104,7 +94,7 @@ describe('Session service', () => {
   });
 
   it('should return an existing user', async () => {
-    
+
     usersService.findByEmail = jest.fn().mockReturnValueOnce(userMock);
 
     const response = sessionService.register(userMockRegister)
