@@ -39,7 +39,7 @@ describe('Users (e2e)', () => {
       });
 
     expect(response.statusCode).toBe(401);
-    expect(response.body.message).toBe('Unauthorized');
+    expect(response.body.message).toBe('Sem autorização 🥷');
   });
 
   it('/users/create (POST) created with success', async () => {

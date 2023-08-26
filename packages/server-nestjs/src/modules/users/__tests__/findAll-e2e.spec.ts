@@ -33,7 +33,7 @@ describe('Users (e2e)', () => {
     const response = await request(app.getHttpServer()).get('/users');
 
     expect(response.statusCode).toBe(401);
-    expect(response.body.message).toBe('Unauthorized');
+    expect(response.body.message).toBe('Sem autorização 🥷');
   });
 
   it('/users (GET)', async () => {
