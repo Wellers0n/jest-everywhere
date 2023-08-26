@@ -1,100 +1,131 @@
-import {
-  CodeSurfer,
-  CodeSurferColumns,
-  Step,
-} from "code-surfer";
+import { CodeSurfer, CodeSurferColumns, Step } from "code-surfer";
 import { github, vsDark } from "@code-surfer/themes";
+import jestImg from "./images/jest.png";
+import featureCoverageImg from "./images/feature-coverage.png";
+import featureFastImg from "./images/feature-fast.png";
+import featureMockingImg from "./images/feature-mocking.png";
+import kentCDoddsImg from "./images/kent-c-dodds.png";
+import { Intro } from "./components/Intro.js";
 
 export const theme = vsDark;
 
-# Hello 👋
+# Jest everywhere
 
-You are using [MDX Deck](https://github.com/jxnblk/mdx-deck) and [Code Surfer](https://codesurfer.pomb.us)
+<img src={jestImg} width={300} height={300} alt="jest" />
+
+---
+
+<Intro />
+
+---
+
+# OVERVIEW
+
+- Why jest
+- how to test in frontend
+- how to test with MSW in frontend
+- how to test in backend
+- how to do e2e tests with docker
+
+---
+
+# Why jest ?
+
+- Zero config
+- Snapshots
+- Isolated Tests
+- Fast and safe
+- Code coverage
+- Easy mocking
+- Community
 
 ---
 
 <CodeSurfer>
 
-```js title="This is a title" subtitle="and this a subtitle"
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit;
-  dolor = sit - amet(dolor);
-  return sit
-    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
-    : [];
+```json title="Zero config" subtitle="Nestjs jest config"
+{
+  "jest": {
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "rootDir": "src",
+    "testRegex": ".spec\\.ts$",
+    "testPathIgnorePatterns": ["/node_modules/", "-e2e.spec.ts$"],
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": ["**/*.(t|j)s"],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/../src/$1" // absolute path
+    }
+  }
 }
 
-function incididunt(ipsum, ut = 1) {
-  ut = labore.et(amet(ut), 0);
-  const sit = ipsum == null ? 0 : ipsum.sit;
-
-  if (!sit || ut < 1) {
-    return [];
-  }
-
-  let dolore = 0;
-  let magna = 0;
-  const aliqua = new eiusmod(labore.ut(sit / ut));
-
-  while (dolore < sit) {
-    aliqua[magna++] = consectetur(
-      ipsum,
-      dolore,
-      (dolore += ut)
-    );
-  }
-
-  return aliqua;
-}
 ```
 
-```js
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit;
-  dolor = sit - amet(dolor);
-  return sit
-    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
-    : [];
-}
-
-function adipiscing(...elit) {
-  if (!elit.sit) {
-    return [];
-  }
-
-  const sed = elit[0];
-  return eiusmod.tempor(sed) ? sed : [sed];
-}
-
-function incididunt(ipsum, ut = 1) {
-  ut = labore.et(amet(ut), 0);
-  const sit = ipsum == null ? 0 : ipsum.sit;
-
-  if (!sit || ut < 1) {
-    return [];
-  }
-
-  let dolore = 0;
-  let magna = 0;
-  const aliqua = new eiusmod(labore.ut(sit / ut));
-
-  while (dolore < sit) {
-    aliqua[magna++] = consectetur(
-      ipsum,
-      dolore,
-      (dolore += ut)
-    );
-  }
-
-  return aliqua;
-}
-```
-
-```diff 1[10:14],2[15:19],3[22:27],10:12
+```diff 1[10:14],3:15
 
 ```
 
 </CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```js title="Snapshots" subtitle="React component example"
+
+exports[`renders correctly 1`] = `
+<a
+  className="normal"
+  href="http://www.facebook.com"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  Facebook
+</a>
+`;
+
+```
+
+</CodeSurfer>
+
+---
+
+# Fast and safe
+
+<img src={featureFastImg} width={1000} height={1000} alt="feature fast" />
+
+---
+
+# Code coverage
+
+<img src={featureCoverageImg} width={1000} height={1000} alt="feature coverage" />
+
+---
+
+# Easy mocking
+
+<img src={featureMockingImg} width={1000} height={1000} alt="Easy mocking" />
+
+---
+
+# Community
+
+<img src={kentCDoddsImg} width={1000} height={1000} alt="Community" />
+
+---
+
+# It works with projects using
+
+- TypeScript
+- Node
+- React
+- Next.JS
+- Angular
+- Vue
+- Nest.JS
 
 ---
 
@@ -103,7 +134,7 @@ function incididunt(ipsum, ut = 1) {
 <Step>
 
 ```js
-const magna = aliqua => aliqua.ut((enim, ad) => enim, 0);
+const magna = (aliqua) => aliqua.ut((enim, ad) => enim, 0);
 ```
 
 ```js
@@ -125,7 +156,7 @@ const lorem = (ipsum, dolor, sit) => {
   );
 };
 
-const magna = aliqua => aliqua.ut((enim, ad) => enim, 0);
+const magna = (aliqua) => aliqua.ut((enim, ad) => enim, 0);
 ```
 
 ```js
