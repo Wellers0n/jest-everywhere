@@ -7,10 +7,15 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start:server-nestjs": "yarn workspace @jest-everywhere/server-nestjs run start",
+    "dev": "yarn dev:server-nestjs & yarn dev:client",
+    "dev:client": "yarn workspace @jest-everywhere/client run dev",
     "dev:server-nestjs": "yarn workspace @jest-everywhere/server-nestjs run start:dev",
     "test:server-nestjs": "yarn workspace @jest-everywhere/server-nestjs run test",
-    "test:server-nestjs:e2e": "yarn workspace @jest-everywhere/server-nestjs run test:e2e"
+    "test:client": "yarn workspace @jest-everywhere/client run test",
+    "test:server-nestjs:e2e": "yarn workspace @jest-everywhere/server-nestjs run test:e2e",
+    "migrate:server-nestjs:deploy": "yarn workspace @jest-everywhere/server-nestjs run migrate:deploy",
+    "migrate:server-nestjs:dev": "yarn workspace @jest-everywhere/server-nestjs run migrate:dev",
+    "generate:server-nestjs": "yarn workspace @jest-everywhere/server-nestjs run generate"
   },
     "workspaces": {
     "packages": [

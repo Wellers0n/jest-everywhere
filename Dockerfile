@@ -4,6 +4,10 @@ EXPOSE 5432
 
 EXPOSE 5433
 
+EXPOSE 3000
+
+EXPOSE 3001
+
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -11,6 +15,8 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 COPY yarn*.lock ./
+COPY packages/server-nestjs/prisma ./packages/server-nestjs/prisma/
+
 
 # If you are building your code for production
 # RUN npm ci --only=production
@@ -21,6 +27,4 @@ COPY . .
 # Install app dependencies
 RUN yarn
 
-RUN chown -R node:node .
-
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "dev" ]
