@@ -36,7 +36,6 @@ const Register = () => {
   });
 
   const submit = async ({ name, email, password }: Submit) => {
-    console.log(name, email, password);
     mutate({
       email,
       password,
