@@ -1,10 +1,10 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Page from "../page";
 import Wrapper from "@/test/Wrapper";
 import { rest, server } from "@/test/server";
 import { act } from "react-dom/test-utils";
 
-const url = process.env.BASE_URL || "http://localhost:3001";
+const url = process.env.BASE_URL
 
 describe("Register", () => {
   it("should render register screen", () => {
@@ -108,7 +108,7 @@ describe("Register", () => {
 
   it("should render success message when register", async () => {
     server.use(
-      rest.post(`${url}/auth/register`, async (req, res, ctx) => {
+      rest.post(`${url}/session/register`, async (req, res, ctx) => {
         return res(
           ctx.status(200),
           ctx.json({
@@ -145,7 +145,7 @@ describe("Register", () => {
 
   it("should render error message when register", async () => {
     server.use(
-      rest.post(`${url}/auth/register`, async (req, res, ctx) => {
+      rest.post(`${url}/session/register`, async (req, res, ctx) => {
         return res(
           ctx.status(400),
           ctx.json({
