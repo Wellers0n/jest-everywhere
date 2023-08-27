@@ -20,9 +20,9 @@ jobs:
       run: |
         yarn
 
-    - name: Build and run PostgreSQL
+    - name: Docker compose up
       run: |
-        docker-compose up -d
+        docker-compose -f docker-compose-test.yml up -d
     
     - name: Run server-nestjs unit tests
       run: |
@@ -32,6 +32,6 @@ jobs:
       run: |
         yarn test:server-nestjs:e2e
 
-    - name: Stop PostgreSQL container
+    - name: Docker compose down
       run: |
-        docker-compose down
+        docker-compose -f docker-compose-test.yml down

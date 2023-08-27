@@ -19,22 +19,6 @@ services:
       - './postgres-data/volume/data:/var/lib/postgresql/data'
     networks:
       - internal-network-postgres-db
-  postgres-test-db:
-    container_name: postgres-test-db
-    image: postgres:alpine
-    restart: always
-    ports:
-      - 5433:5432
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=test
-    logging:
-      options:
-        max-size: 10m
-        max-file: "3"
-    networks:
-      - internal-network-postgres-test-db
   app:
     container_name: application
     build:
@@ -61,6 +45,4 @@ volumes:
   postgres-data:
 networks:
   internal-network-postgres-db:
-    driver: bridge
-  internal-network-postgres-test-db:
     driver: bridge
