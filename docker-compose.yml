@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   postgres-db:
-    container_name: edge-postgres
+    container_name: postgres-db
     image: postgres:alpine
     restart: always
     ports:
@@ -11,14 +11,14 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=edge
     logging:
-        options:
-          max-size: 10m
-          max-file: "3"
+      options:
+        max-size: 10m
+        max-file: "3"
     volumes:
       - './postgres-data/volume/bk:/bk'
       - './postgres-data/volume/data:/var/lib/postgresql/data'
     networks:
-      - network-edge
+      - internal-network-postgres-db
   postgres-test-db:
     container_name: postgres-test-db
     image: postgres:alpine
@@ -30,16 +30,37 @@ services:
       - POSTGRES_PASSWORD=docker
       - POSTGRES_DB=test
     logging:
-        options:
-          max-size: 10m
-          max-file: "3"
+      options:
+        max-size: 10m
+        max-file: "3"
     networks:
-      - network-test-db
-    
+      - internal-network-postgres-test-db
+  app:
+    container_name: application
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/usr/src/app/
+      - /usr/src/app/node_modules
+    ports:
+      - '3001:3001'
+      - '3000:3000'
+
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+
+    depends_on:
+      - postgres-db
+    links:
+      - postgres-db
+    networks:
+      - internal-network-postgres-db
 volumes:
   postgres-data:
 networks:
-  network-edge:
+  internal-network-postgres-db:
     driver: bridge
-  network-test-db:
+  internal-network-postgres-test-db:
     driver: bridge
