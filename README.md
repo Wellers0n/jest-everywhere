@@ -47,12 +47,6 @@ At the root directory, run the following command:
  docker-compose up -d
 ```
 
-run application:
-
-```sh
- yarn start
-```
-
 ## Listening in
 
 frontend port: `http://localhost:3000`
