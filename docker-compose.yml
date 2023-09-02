@@ -32,11 +32,12 @@ services:
       - '3000:3000'
 
     environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - JWT_SECRET=${JWT_SECRET}
+      - DATABASE_URL=postgresql://postgres:postgres@postgres-db:5432/edge?schema=public
+      - JWT_SECRET=batman
 
     depends_on:
-      - postgres-db
+      postgres-db:
+        condition: service_started
     links:
       - postgres-db
     networks:

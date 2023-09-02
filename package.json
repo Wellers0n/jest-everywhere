@@ -8,7 +8,6 @@
   "private": true,
   "scripts": {
     "dev": "yarn dev:server-nestjs & yarn dev:client",
-    "start:mdx": "yarn workspace @jest-everywhere/mdx run start",
     "dev:client": "yarn workspace @jest-everywhere/client run dev",
     "dev:server-nestjs": "yarn workspace @jest-everywhere/server-nestjs run start:dev",
     "test:server-nestjs": "yarn workspace @jest-everywhere/server-nestjs run test",
@@ -21,7 +20,6 @@
     "workspaces": {
     "packages": [
       "packages/client",
-      "packages/mdx",
       "packages/server-nestjs",
       "packages/server-fastify"
     ]
