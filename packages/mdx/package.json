@@ -1,4 +1,5 @@
 {
+  "name": "@jest-everywhere/mdx",
   "private": true,
   "version": "1.0.0",
   "description": "Deck created with mdx-deck",
@@ -15,7 +16,6 @@
   "keywords": [],
   "author": "Brent Jackson",
   "license": "MIT",
-  "name": "my-code",
   "devDependencies": {
     "@babel/types": "^7.22.10",
     "babel": "^6.23.0",
