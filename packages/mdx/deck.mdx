@@ -5,6 +5,7 @@ import featureCoverageImg from "./images/feature-coverage.png";
 import featureFastImg from "./images/feature-fast.png";
 import snapshotExampleImg from "./images/snapshot-example.png";
 import featureMockingImg from "./images/feature-mocking.png";
+import testPyramidImg from "./images/test-pyramid.png";
 import kentCDoddsImg from "./images/kent-c-dodds.png";
 import { Intro } from "./components/Intro.js";
 
@@ -96,31 +97,31 @@ exports[`renders correctly 1`] = `
 
 # Snapshot example
 
-<img src={snapshotExampleImg} width={1000} height={1000} alt="snapshot example" />
+<img src={snapshotExampleImg} width={1250} height={1250} alt="snapshot example" />
 
 ---
 
 # Fast and safe
 
-<img src={featureFastImg} width={1000} height={1000} alt="feature fast" />
+<img src={featureFastImg} width={1250} height={1250} alt="feature fast" />
 
 ---
 
 # Code coverage
 
-<img src={featureCoverageImg} width={1000} height={1000} alt="feature coverage" />
+<img src={featureCoverageImg} width={1250} height={1250} alt="feature coverage" />
 
 ---
 
 # Easy mocking
 
-<img src={featureMockingImg} width={1000} height={1000} alt="Easy mocking" />
+<img src={featureMockingImg} width={1250} height={1250} alt="Easy mocking" />
 
 ---
 
 # Community
 
-<img src={kentCDoddsImg} width={1000} height={1000} alt="Community" />
+<img src={kentCDoddsImg} width={1250} height={1250} alt="Community" />
 
 ---
 
@@ -133,6 +134,12 @@ exports[`renders correctly 1`] = `
 - Angular
 - Vue
 - Nest.JS
+
+---
+
+# Pyramid
+
+<img src={testPyramidImg} width={1050} height={1000} alt="Community" />
 
 ---
 
@@ -188,3 +195,90 @@ const sed = (eiusmod, tempor, incididunt) => {
 
 docs:  
 [codesurfer.pomb.us](https://codesurfer.pomb.us)
+
+---
+
+<CodeSurfer>
+
+```js title="This is a title" subtitle="and this a subtitle"
+function lorem(ipsum, dolor = 1) {
+  const sit = ipsum == null ? 0 : ipsum.sit;
+  dolor = sit - amet(dolor);
+  return sit
+    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
+    : [];
+}
+
+function incididunt(ipsum, ut = 1) {
+  ut = labore.et(amet(ut), 0);
+  const sit = ipsum == null ? 0 : ipsum.sit;
+
+  if (!sit || ut < 1) {
+    return [];
+  }
+
+  let dolore = 0;
+  let magna = 0;
+  const aliqua = new eiusmod(labore.ut(sit / ut));
+
+  while (dolore < sit) {
+    aliqua[magna++] = consectetur(
+      ipsum,
+      dolore,
+      (dolore += ut)
+    );
+  }
+
+  return aliqua;
+}
+```
+
+```js
+function lorem(ipsum, dolor = 1) {
+  const sit = ipsum == null ? 0 : ipsum.sit;
+  dolor = sit - amet(dolor);
+  return sit
+    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
+    : [];
+}
+
+function adipiscing(...elit) {
+  if (!elit.sit) {
+    return [];
+  }
+
+  const sed = elit[0];
+  return eiusmod.tempor(sed) ? sed : [sed];
+}
+
+function incididunt(ipsum, ut = 1) {
+  ut = labore.et(amet(ut), 0);
+  const sit = ipsum == null ? 0 : ipsum.sit;
+
+  if (!sit || ut < 1) {
+    return [];
+  }
+
+  let dolore = 0;
+  let magna = 0;
+  const aliqua = new eiusmod(labore.ut(sit / ut));
+
+  while (dolore < sit) {
+    aliqua[magna++] = consectetur(
+      ipsum,
+      dolore,
+      (dolore += ut)
+    );
+  }
+
+  return aliqua;
+}
+```
+
+```diff 10:12 18:39
+
+```
+
+</CodeSurfer>
+
+---
