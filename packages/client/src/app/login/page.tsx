@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import useSessionLoginMutation from "@/hooks/useSessionLoginMutation";
+import { Input } from "@/components/Input";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import theme from "@/theme";
 import { useRouter } from "next/navigation";
@@ -54,28 +55,26 @@ const Login = () => {
         width={{ lg: "25%", md: "40%", xs: "78%" }}
         onSubmit={handleSubmit(submit)}
       >
-        <Stack
+        <Typography
           mb={5}
-          alignItems={"center"}
           display={"flex"}
+          alignItems={"center"}
           justifyContent={"center"}
+          color={"primary"}
+          variant={mobile ? "h5" : "h4"}
+          textAlign={"center"}
         >
-          <Typography
-            color={"primary"}
-            variant={mobile ? "h5" : "h4"}
-            textAlign={"center"}
-          >
-            Jest everywhere
-          </Typography>
-        </Stack>
+          Jest everywhere
+        </Typography>
         <Stack
           width={"100%"}
           spacing={2}
           direction={{ xs: "column", sm: "column", md: "column" }}
         >
-          <Controller
+          <Input
             name={"email"}
             control={control}
+            label={"Email"}
             rules={{
               required: "Email é obrigatório",
               pattern: {
@@ -83,24 +82,12 @@ const Login = () => {
                 message: "Digite um email válido",
               },
             }}
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                onChange={onChange}
-                value={value}
-                error={!!error}
-                helperText={error ? error.message : null}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-                label={"Email"}
-              />
-            )}
           />
-
-          <Controller
+          <Input
             name={"password"}
             control={control}
+            label={"Senha"}
+            type="password"
             rules={{
               required: "Senha é obrigatório",
               minLength: {
@@ -108,20 +95,6 @@ const Login = () => {
                 message: "Digite pelo menos 3 caracteres",
               },
             }}
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                onChange={onChange}
-                value={value}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                error={!!error}
-                helperText={error ? error.message : null}
-                fullWidth
-                type="password"
-                label={"Senha"}
-              />
-            )}
           />
         </Stack>
         <Stack
