@@ -15,8 +15,7 @@ services:
         max-size: 10m
         max-file: "3"
     volumes:
-      - './postgres-data/volume/bk:/bk'
-      - './postgres-data/volume/data:/var/lib/postgresql/data'
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - internal-network-postgres-db
   app:
@@ -24,9 +23,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - ./:/usr/src/app/
-      - /usr/src/app/node_modules
     ports:
       - '3001:3001'
       - '3000:3000'
@@ -36,8 +32,7 @@ services:
       - JWT_SECRET=batman
 
     depends_on:
-      postgres-db:
-        condition: service_started
+      - postgres-db
     links:
       - postgres-db
     networks:
