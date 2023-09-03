@@ -275,7 +275,6 @@ exports[`renders correctly 1`] = `
         </Stack>
       </Stack>
     </Stack>
-}
 ```
 
 </Step>
@@ -452,7 +451,7 @@ exports[`renders correctly 1`] = `
 
 <Step>
 
-```jsx 65:79
+```jsx 65:75
 <Stack
   height={"90vh"}
   width={"100%"}
@@ -531,6 +530,148 @@ exports[`renders correctly 1`] = `
     </Stack>
   </Stack>
 </Stack>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[vsDark, github]}>
+
+<Step>
+
+```js title="server.ts"
+import { setupServer } from "msw/node";
+
+const server = setupServer();
+
+export * from 'msw'
+export { server };
+
+```
+
+```jsx title="Wrapper.tsx"
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SnackbarProvider } from "notistack";
+
+type Props = {
+  children: string | JSX.Element | JSX.Element[];
+};
+
+const Wrapper = ({ children }: Props) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retryDelay: 1,
+        retry: 0,
+      },
+    },
+  });
+
+  return (
+    <SnackbarProvider
+      maxSnack={3}
+      anchorOrigin={{ horizontal: "right", vertical: "top" }}
+    >
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </SnackbarProvider>
+  );
+};
+
+export default Wrapper;
+
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[vsDark, github]}>
+
+<Step>
+
+
+
+```js title="jest.setup.ts"
+
+import 'whatwg-fetch'
+import { server } from './src/test/server'
+import '@testing-library/jest-dom';
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: '.env.testing' });
+
+jest.mock('next/navigation', () => require('next-router-mock'))
+jest.mock('next/router', () => require('next-router-mock'))
+jest.mock('next/dist/client/router', () => require('next-router-mock'))
+
+beforeAll(() => server.listen())
+// if you need to add a handler after calling setupServer for some specific test
+// this will remove that handler for the rest of them
+// (which is important for test isolation):
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
+
+```
+
+```js 48:48 title="jest.config.ts"
+
+import type { Config } from '@jest/types'
+
+const config: Config.InitialOptions = {
+  preset: 'ts-jest',
+  displayName: 'client',
+  testEnvironment: 'jest-environment-jsdom',
+  testEnvironmentOptions: {
+    customExportConditions: [] // don't load "browser" field
+  },
+  transformIgnorePatterns: [
+    '/node_modules/',
+    '^.+\\.module\\.(css|sass|scss)$'
+  ],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/'],
+  
+  transform: {
+    // Use babel-jest to transpile tests with the next/babel preset
+    // https://jestjs.io/docs/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object
+    // '^.+\\.(js|jsx|ts|tsx)$': 'ts-jest',
+    '^.+\\.(js|jsx|ts|tsx)$': [
+      'ts-jest',
+      {
+        tsconfig: './tsconfig-test.json'
+      }
+    ]
+  },
+  
+  moduleNameMapper: {
+    // Handle CSS imports (with CSS modules)
+    // https://jestjs.io/docs/webpack#mocking-css-modules
+    '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+
+    // Handle CSS imports (without CSS modules)
+    '^.+\\.(css|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
+
+    // Handle image imports
+    // https://jestjs.io/docs/webpack#handling-static-assets
+    '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i': `<rootDir>/__mocks__/fileMock.js`,
+
+    // Handle module aliases
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@/types': '<rootDir>/src/types.d.ts',
+    '^@/theme': '<rootDir>/src/theme.ts'
+  },
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  setupFilesAfterEnv: ['./jest.setup.ts']
+}
+
+export default config
+
 ```
 
 </Step>
@@ -799,7 +940,7 @@ describe("login", () => {
 
 <Step>
 
-```jsx 9:18
+```jsx 10:18
 import { fireEvent, render, screen } from "@testing-library/react";
 import Page from "../page";
 import Wrapper from "@/test/Wrapper";
@@ -1311,66 +1452,132 @@ describe("login", () => {
 
 <Step>
 
-```js title="MSW setup"
-import { setupServer } from "msw/node";
+```jsx 89:120 title="Testing with MSW"
+import { fireEvent, render, screen } from "@testing-library/react";
+import Page from "../page";
+import Wrapper from "@/test/Wrapper";
+import { rest, server } from "@/test/server";
+import { act } from "react-dom/test-utils";
 
-const server = setupServer();
+const url = process.env.BASE_URL;
 
-export * from "msw";
-export { server };
+describe("login", () => {
+  it("should render login screen", () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    expect(screen.getByText("Jest everywhere")).toBeInTheDocument();
+  });
+  it("should render require login inputs", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Email é obrigatório")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+  it("should render require email valid", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+
+    fireEvent.change(emailInput, { target: { value: "admin@" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Digite um email válido")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+
+  it("should render success message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Logado com sucesso!")).toBeInTheDocument();
+  });
+
+  it("should render error message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(400),
+          ctx.json({
+            access_token: null,
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Error ao logar!")).toBeInTheDocument();
+  });
+});
 ```
 
 </Step>
 
-<Step>
-
-```js title="Jest setup with MSW"
-import 'whatwg-fetch'
-import { server } from './src/test/server'
-import '@testing-library/jest-dom';
-import * as dotenv from 'dotenv';
-
-dotenv.config({ path: '.env.testing' });
-
-jest.mock('next/navigation', () => require('next-router-mock'))
-jest.mock('next/router', () => require('next-router-mock'))
-jest.mock('next/dist/client/router', () => require('next-router-mock'))
-
-beforeAll(() => server.listen())
-// if you need to add a handler after calling setupServer for some specific test
-// this will remove that handler for the rest of them
-// (which is important for test isolation):
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
-
-```
-
-</Step>
-
-<Step>
-
-```js 11:17 title="Jest setup with MSW"
-import 'whatwg-fetch'
-import { server } from './src/test/server'
-import '@testing-library/jest-dom';
-import * as dotenv from 'dotenv';
-
-dotenv.config({ path: '.env.testing' });
-
-jest.mock('next/navigation', () => require('next-router-mock'))
-jest.mock('next/router', () => require('next-router-mock'))
-jest.mock('next/dist/client/router', () => require('next-router-mock'))
-
-beforeAll(() => server.listen())
-// if you need to add a handler after calling setupServer for some specific test
-// this will remove that handler for the rest of them
-// (which is important for test isolation):
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
-
-```
-
-</Step>
 
 </CodeSurferColumns>
 
