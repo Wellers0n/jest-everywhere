@@ -34,6 +34,7 @@ describe("login", () => {
     expect(screen.getByText("Email é obrigatório")).toBeInTheDocument();
     expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
   });
+
   it("should render require email valid", async () => {
     render(
       <Wrapper>
@@ -121,5 +122,16 @@ describe("login", () => {
     });
 
     expect(screen.getByText("Error ao logar!")).toBeInTheDocument();
+  });
+
+  it("should render login snapshots", async () => {
+    const page = render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    expect(page.baseElement).toMatchSnapshot();
+    
   });
 });
