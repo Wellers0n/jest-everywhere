@@ -65,7 +65,6 @@ export const theme = vsDark;
     }
   }
 }
-
 ```
 
 ```diff 1[10:14],3:15
@@ -79,7 +78,6 @@ export const theme = vsDark;
 <CodeSurfer>
 
 ```js title="Snapshots" subtitle="React component example"
-
 exports[`renders correctly 1`] = `
 <a
   className="normal"
@@ -90,7 +88,6 @@ exports[`renders correctly 1`] = `
   Facebook
 </a>
 `;
-
 ```
 
 </CodeSurfer>
@@ -99,7 +96,12 @@ exports[`renders correctly 1`] = `
 
 # Snapshot example
 
-<img src={snapshotExampleImg} width={1250} height={1250} alt="snapshot example" />
+<img
+  src={snapshotExampleImg}
+  width={1250}
+  height={1250}
+  alt="snapshot example"
+/>
 
 ---
 
@@ -111,7 +113,12 @@ exports[`renders correctly 1`] = `
 
 # Code coverage
 
-<img src={featureCoverageImg} width={1250} height={1250} alt="feature coverage" />
+<img
+  src={featureCoverageImg}
+  width={1250}
+  height={1250}
+  alt="feature coverage"
+/>
 
 ---
 
@@ -151,7 +158,6 @@ exports[`renders correctly 1`] = `
 - How to test?
 - Using Mock Service Worker (MSW)
 
-
 ---
 
 # What to test?
@@ -162,58 +168,1206 @@ exports[`renders correctly 1`] = `
 
 # What to test?
 
-<img src={loginScreenRequiredInputImg} width={1300} height={1300} alt="login screen required input" />
+<img
+  src={loginScreenRequiredInputImg}
+  width={1300}
+  height={1300}
+  alt="login screen required input"
+/>
 
 ---
 
 # What to test?
 
-<img src={loginScreenOnchangeInputImg} width={1300} height={1300} alt="login screen on change input" />
+<img
+  src={loginScreenOnchangeInputImg}
+  width={1300}
+  height={1300}
+  alt="login screen on change input"
+/>
 
 ---
 
-<CodeSurferColumns themes={[vsDark, github]}>
+<CodeSurferColumns>
 
 <Step>
 
-```js
-const magna = (aliqua) => aliqua.ut((enim, ad) => enim, 0);
-```
-
-```js
-const minim = (ad, enim) => dolore.magna(ad / enim);
+```jsx title="What to test?"
+    <Stack
+      height={"90vh"}
+      width={"100%"}
+      mb={3}
+      display={"flex"}
+      justifyContent={"center"}
+      alignItems={"center"}
+    >
+      <Stack
+        component={"form"}
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        width={{ lg: "25%", md: "40%", xs: "78%" }}
+        onSubmit={handleSubmit(submit)}
+      >
+        <Typography
+          mb={5}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          color={"primary"}
+          variant={mobile ? "h5" : "h4"}
+          textAlign={"center"}
+        >
+          Jest everywhere
+        </Typography>
+        <Stack
+          width={"100%"}
+          spacing={2}
+          direction={{ xs: "column", sm: "column", md: "column" }}
+        >
+          <Input
+            name={"email"}
+            control={control}
+            label={"Email"}
+            rules={{
+              required: "Email é obrigatório",
+              pattern: {
+                value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                message: "Digite um email válido",
+              },
+            }}
+          />
+          <Input
+            name={"password"}
+            control={control}
+            label={"Senha"}
+            type="password"
+            rules={{
+              required: "Senha é obrigatório",
+              minLength: {
+                value: 3,
+                message: "Digite pelo menos 3 caracteres",
+              },
+            }}
+          />
+        </Stack>
+        <Stack
+          width={"100%"}
+          mt={2}
+          direction={"row"}
+          sx={{ justifyContent: "space-between", alignItems: "center" }}
+        >
+          <Button
+            disabled={isLoading}
+            sx={{ height: 40, width: 160 }}
+            variant="contained"
+            type="submit"
+          >
+            {isLoading ? (
+              <CircularProgress color="primary" size={22} />
+            ) : (
+              "Entrar"
+            )}
+          </Button>
+          <Button variant="text" onClick={() => router.push("/register")}>
+            Cadastrar
+          </Button>
+        </Stack>
+      </Stack>
+    </Stack>
+}
 ```
 
 </Step>
 
 <Step>
 
-```js
-const lorem = (ipsum, dolor, sit) => {
-  const amet = dolor - ipsum;
-  return consectetur.adipiscing(
-    {
-      elit: sed.eiusmod(sit - dolor) / amet + 2,
-    },
-    (tempor, incididunt) => ipsum + amet * incididunt
-  );
-};
-
-const magna = (aliqua) => aliqua.ut((enim, ad) => enim, 0);
+```jsx 17:27
+<Stack
+  height={"90vh"}
+  width={"100%"}
+  mb={3}
+  display={"flex"}
+  justifyContent={"center"}
+  alignItems={"center"}
+>
+  <Stack
+    component={"form"}
+    display={"flex"}
+    justifyContent={"center"}
+    alignItems={"center"}
+    width={{ lg: "25%", md: "40%", xs: "78%" }}
+    onSubmit={handleSubmit(submit)}
+  >
+    <Typography
+      mb={5}
+      display={"flex"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      color={"primary"}
+      variant={mobile ? "h5" : "h4"}
+      textAlign={"center"}
+    >
+      Jest everywhere
+    </Typography>
+    <Stack
+      width={"100%"}
+      spacing={2}
+      direction={{ xs: "column", sm: "column", md: "column" }}
+    >
+      <Input
+        name={"email"}
+        control={control}
+        label={"Email"}
+        rules={{
+          required: "Email é obrigatório",
+          pattern: {
+            value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+            message: "Digite um email válido",
+          },
+        }}
+      />
+      <Input
+        name={"password"}
+        control={control}
+        label={"Senha"}
+        type="password"
+        rules={{
+          required: "Senha é obrigatório",
+          minLength: {
+            value: 3,
+            message: "Digite pelo menos 3 caracteres",
+          },
+        }}
+      />
+    </Stack>
+    <Stack
+      width={"100%"}
+      mt={2}
+      direction={"row"}
+      sx={{ justifyContent: "space-between", alignItems: "center" }}
+    >
+      <Button
+        disabled={isLoading}
+        sx={{ height: 40, width: 160 }}
+        variant="contained"
+        type="submit"
+      >
+        {isLoading ? <CircularProgress color="primary" size={22} /> : "Entrar"}
+      </Button>
+      <Button variant="text" onClick={() => router.push("/register")}>
+        Cadastrar
+      </Button>
+    </Stack>
+  </Stack>
+</Stack>
 ```
 
-```js
-const minim = (ad, enim) => dolore.magna(ad / enim);
+</Step>
 
-const sed = (eiusmod, tempor, incididunt) => {
-  const ut = tempor - eiusmod;
-  return labore.et(
-    {
-      amet: dolore.magna(incididunt - tempor) / ut + 2,
-    },
-    (aliqua, elit) => eiusmod + ut * elit
-  );
-};
+<Step>
+
+```jsx 33:57
+<Stack
+  height={"90vh"}
+  width={"100%"}
+  mb={3}
+  display={"flex"}
+  justifyContent={"center"}
+  alignItems={"center"}
+>
+  <Stack
+    component={"form"}
+    display={"flex"}
+    justifyContent={"center"}
+    alignItems={"center"}
+    width={{ lg: "25%", md: "40%", xs: "78%" }}
+    onSubmit={handleSubmit(submit)}
+  >
+    <Typography
+      mb={5}
+      display={"flex"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      color={"primary"}
+      variant={mobile ? "h5" : "h4"}
+      textAlign={"center"}
+    >
+      Jest everywhere
+    </Typography>
+    <Stack
+      width={"100%"}
+      spacing={2}
+      direction={{ xs: "column", sm: "column", md: "column" }}
+    >
+      <Input
+        name={"email"}
+        control={control}
+        label={"Email"}
+        rules={{
+          required: "Email é obrigatório",
+          pattern: {
+            value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+            message: "Digite um email válido",
+          },
+        }}
+      />
+      <Input
+        name={"password"}
+        control={control}
+        label={"Senha"}
+        type="password"
+        rules={{
+          required: "Senha é obrigatório",
+          minLength: {
+            value: 3,
+            message: "Digite pelo menos 3 caracteres",
+          },
+        }}
+      />
+    </Stack>
+    <Stack
+      width={"100%"}
+      mt={2}
+      direction={"row"}
+      sx={{ justifyContent: "space-between", alignItems: "center" }}
+    >
+      <Button
+        disabled={isLoading}
+        sx={{ height: 40, width: 160 }}
+        variant="contained"
+        type="submit"
+      >
+        {isLoading ? <CircularProgress color="primary" size={22} /> : "Entrar"}
+      </Button>
+      <Button variant="text" onClick={() => router.push("/register")}>
+        Cadastrar
+      </Button>
+    </Stack>
+  </Stack>
+</Stack>
+```
+
+</Step>
+
+<Step>
+
+```jsx 65:79
+<Stack
+  height={"90vh"}
+  width={"100%"}
+  mb={3}
+  display={"flex"}
+  justifyContent={"center"}
+  alignItems={"center"}
+>
+  <Stack
+    component={"form"}
+    display={"flex"}
+    justifyContent={"center"}
+    alignItems={"center"}
+    width={{ lg: "25%", md: "40%", xs: "78%" }}
+    onSubmit={handleSubmit(submit)}
+  >
+    <Typography
+      mb={5}
+      display={"flex"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      color={"primary"}
+      variant={mobile ? "h5" : "h4"}
+      textAlign={"center"}
+    >
+      Jest everywhere
+    </Typography>
+    <Stack
+      width={"100%"}
+      spacing={2}
+      direction={{ xs: "column", sm: "column", md: "column" }}
+    >
+      <Input
+        name={"email"}
+        control={control}
+        label={"Email"}
+        rules={{
+          required: "Email é obrigatório",
+          pattern: {
+            value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+            message: "Digite um email válido",
+          },
+        }}
+      />
+      <Input
+        name={"password"}
+        control={control}
+        label={"Senha"}
+        type="password"
+        rules={{
+          required: "Senha é obrigatório",
+          minLength: {
+            value: 3,
+            message: "Digite pelo menos 3 caracteres",
+          },
+        }}
+      />
+    </Stack>
+    <Stack
+      width={"100%"}
+      mt={2}
+      direction={"row"}
+      sx={{ justifyContent: "space-between", alignItems: "center" }}
+    >
+      <Button
+        disabled={isLoading}
+        sx={{ height: 40, width: 160 }}
+        variant="contained"
+        type="submit"
+      >
+        {isLoading ? <CircularProgress color="primary" size={22} /> : "Entrar"}
+      </Button>
+      <Button variant="text" onClick={() => router.push("/register")}>
+        Cadastrar
+      </Button>
+    </Stack>
+  </Stack>
+</Stack>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```jsx title="How to test?"
+import { fireEvent, render, screen } from "@testing-library/react";
+import Page from "../page";
+import Wrapper from "@/test/Wrapper";
+import { rest, server } from "@/test/server";
+import { act } from "react-dom/test-utils";
+
+const url = process.env.BASE_URL;
+
+describe("login", () => {
+  it("should render login screen", () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    expect(screen.getByText("Jest everywhere")).toBeInTheDocument();
+  });
+  it("should render require login inputs", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Email é obrigatório")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+  it("should render require email valid", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+
+    fireEvent.change(emailInput, { target: { value: "admin@" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Digite um email válido")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+
+  it("should render success message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Logado com sucesso!")).toBeInTheDocument();
+  });
+
+  it("should render error message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(400),
+          ctx.json({
+            access_token: null,
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Error ao logar!")).toBeInTheDocument();
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```jsx 1:7
+import { fireEvent, render, screen } from "@testing-library/react";
+import Page from "../page";
+import Wrapper from "@/test/Wrapper";
+import { rest, server } from "@/test/server";
+import { act } from "react-dom/test-utils";
+
+const url = process.env.BASE_URL;
+
+describe("login", () => {
+  it("should render login screen", () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    expect(screen.getByText("Jest everywhere")).toBeInTheDocument();
+  });
+  it("should render require login inputs", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Email é obrigatório")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+  it("should render require email valid", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+
+    fireEvent.change(emailInput, { target: { value: "admin@" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Digite um email válido")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+
+  it("should render success message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Logado com sucesso!")).toBeInTheDocument();
+  });
+
+  it("should render error message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(400),
+          ctx.json({
+            access_token: null,
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Error ao logar!")).toBeInTheDocument();
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```jsx 9:18
+import { fireEvent, render, screen } from "@testing-library/react";
+import Page from "../page";
+import Wrapper from "@/test/Wrapper";
+import { rest, server } from "@/test/server";
+import { act } from "react-dom/test-utils";
+
+const url = process.env.BASE_URL;
+
+describe("login", () => {
+  it("should render login screen", () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    expect(screen.getByText("Jest everywhere")).toBeInTheDocument();
+  });
+  it("should render require login inputs", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Email é obrigatório")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+  it("should render require email valid", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+
+    fireEvent.change(emailInput, { target: { value: "admin@" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Digite um email válido")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+
+  it("should render success message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Logado com sucesso!")).toBeInTheDocument();
+  });
+
+  it("should render error message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(400),
+          ctx.json({
+            access_token: null,
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Error ao logar!")).toBeInTheDocument();
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```jsx 19:34
+import { fireEvent, render, screen } from "@testing-library/react";
+import Page from "../page";
+import Wrapper from "@/test/Wrapper";
+import { rest, server } from "@/test/server";
+import { act } from "react-dom/test-utils";
+
+const url = process.env.BASE_URL;
+
+describe("login", () => {
+  it("should render login screen", () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    expect(screen.getByText("Jest everywhere")).toBeInTheDocument();
+  });
+  it("should render require login inputs", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Email é obrigatório")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+  it("should render require email valid", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+
+    fireEvent.change(emailInput, { target: { value: "admin@" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Digite um email válido")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+
+  it("should render success message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Logado com sucesso!")).toBeInTheDocument();
+  });
+
+  it("should render error message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(400),
+          ctx.json({
+            access_token: null,
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Error ao logar!")).toBeInTheDocument();
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```jsx 35:54
+import { fireEvent, render, screen } from "@testing-library/react";
+import Page from "../page";
+import Wrapper from "@/test/Wrapper";
+import { rest, server } from "@/test/server";
+import { act } from "react-dom/test-utils";
+
+const url = process.env.BASE_URL;
+
+describe("login", () => {
+  it("should render login screen", () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    expect(screen.getByText("Jest everywhere")).toBeInTheDocument();
+  });
+  it("should render require login inputs", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Email é obrigatório")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+  it("should render require email valid", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+
+    fireEvent.change(emailInput, { target: { value: "admin@" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Digite um email válido")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+
+  it("should render success message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Logado com sucesso!")).toBeInTheDocument();
+  });
+
+  it("should render error message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(400),
+          ctx.json({
+            access_token: null,
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Error ao logar!")).toBeInTheDocument();
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```jsx 55:88 title="Testing with MSW"
+import { fireEvent, render, screen } from "@testing-library/react";
+import Page from "../page";
+import Wrapper from "@/test/Wrapper";
+import { rest, server } from "@/test/server";
+import { act } from "react-dom/test-utils";
+
+const url = process.env.BASE_URL;
+
+describe("login", () => {
+  it("should render login screen", () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    expect(screen.getByText("Jest everywhere")).toBeInTheDocument();
+  });
+  it("should render require login inputs", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Email é obrigatório")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+  it("should render require email valid", async () => {
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+
+    fireEvent.change(emailInput, { target: { value: "admin@" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Digite um email válido")).toBeInTheDocument();
+    expect(screen.getByText("Senha é obrigatório")).toBeInTheDocument();
+  });
+
+  it("should render success message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Logado com sucesso!")).toBeInTheDocument();
+  });
+
+  it("should render error message when login", async () => {
+    server.use(
+      rest.post(`${url}/session/signin`, async (req, res, ctx) => {
+        return res(
+          ctx.status(400),
+          ctx.json({
+            access_token: null,
+          })
+        );
+      })
+    );
+
+    render(
+      <Wrapper>
+        <Page />
+      </Wrapper>
+    );
+
+    const emailInput = screen.getByLabelText("Email");
+    const passwordInput = screen.getByLabelText("Senha");
+
+    fireEvent.change(emailInput, { target: { value: "admin@admin.com" } });
+    fireEvent.change(passwordInput, { target: { value: "admin" } });
+
+    const submitBtn = screen.getByText("Entrar");
+
+    await act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.getByText("Error ao logar!")).toBeInTheDocument();
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```js title="MSW setup"
+import { setupServer } from "msw/node";
+
+const server = setupServer();
+
+export * from "msw";
+export { server };
+```
+
+</Step>
+
+<Step>
+
+```js title="Jest setup with MSW"
+import 'whatwg-fetch'
+import { server } from './src/test/server'
+import '@testing-library/jest-dom';
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: '.env.testing' });
+
+jest.mock('next/navigation', () => require('next-router-mock'))
+jest.mock('next/router', () => require('next-router-mock'))
+jest.mock('next/dist/client/router', () => require('next-router-mock'))
+
+beforeAll(() => server.listen())
+// if you need to add a handler after calling setupServer for some specific test
+// this will remove that handler for the rest of them
+// (which is important for test isolation):
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
+
+```
+
+</Step>
+
+<Step>
+
+```js 11:17 title="Jest setup with MSW"
+import 'whatwg-fetch'
+import { server } from './src/test/server'
+import '@testing-library/jest-dom';
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: '.env.testing' });
+
+jest.mock('next/navigation', () => require('next-router-mock'))
+jest.mock('next/router', () => require('next-router-mock'))
+jest.mock('next/dist/client/router', () => require('next-router-mock'))
+
+beforeAll(() => server.listen())
+// if you need to add a handler after calling setupServer for some specific test
+// this will remove that handler for the rest of them
+// (which is important for test isolation):
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
+
 ```
 
 </Step>
@@ -224,90 +1378,3 @@ const sed = (eiusmod, tempor, incididunt) => {
 
 docs:  
 [codesurfer.pomb.us](https://codesurfer.pomb.us)
-
----
-
-<CodeSurfer>
-
-```js title="This is a title" subtitle="and this a subtitle"
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit;
-  dolor = sit - amet(dolor);
-  return sit
-    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
-    : [];
-}
-
-function incididunt(ipsum, ut = 1) {
-  ut = labore.et(amet(ut), 0);
-  const sit = ipsum == null ? 0 : ipsum.sit;
-
-  if (!sit || ut < 1) {
-    return [];
-  }
-
-  let dolore = 0;
-  let magna = 0;
-  const aliqua = new eiusmod(labore.ut(sit / ut));
-
-  while (dolore < sit) {
-    aliqua[magna++] = consectetur(
-      ipsum,
-      dolore,
-      (dolore += ut)
-    );
-  }
-
-  return aliqua;
-}
-```
-
-```js
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit;
-  dolor = sit - amet(dolor);
-  return sit
-    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
-    : [];
-}
-
-function adipiscing(...elit) {
-  if (!elit.sit) {
-    return [];
-  }
-
-  const sed = elit[0];
-  return eiusmod.tempor(sed) ? sed : [sed];
-}
-
-function incididunt(ipsum, ut = 1) {
-  ut = labore.et(amet(ut), 0);
-  const sit = ipsum == null ? 0 : ipsum.sit;
-
-  if (!sit || ut < 1) {
-    return [];
-  }
-
-  let dolore = 0;
-  let magna = 0;
-  const aliqua = new eiusmod(labore.ut(sit / ut));
-
-  while (dolore < sit) {
-    aliqua[magna++] = consectetur(
-      ipsum,
-      dolore,
-      (dolore += ut)
-    );
-  }
-
-  return aliqua;
-}
-```
-
-```diff 10:12 18:39
-
-```
-
-</CodeSurfer>
-
----
