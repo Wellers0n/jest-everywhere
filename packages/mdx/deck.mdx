@@ -37,7 +37,6 @@ export const theme = vsDark;
 
 - Zero config
 - Snapshots
-- Isolated Tests
 - Fast and safe
 - Code coverage
 - Easy mocking
@@ -98,8 +97,8 @@ exports[`renders correctly 1`] = `
 
 <img
   src={snapshotExampleImg}
-  width={1250}
-  height={1250}
+  width={1550}
+  height={1550}
   alt="snapshot example"
 />
 
@@ -107,7 +106,7 @@ exports[`renders correctly 1`] = `
 
 # Fast and safe
 
-<img src={featureFastImg} width={1250} height={1250} alt="feature fast" />
+<img src={featureFastImg} width={1300} height={1300} alt="feature fast" />
 
 ---
 
@@ -115,8 +114,8 @@ exports[`renders correctly 1`] = `
 
 <img
   src={featureCoverageImg}
-  width={1250}
-  height={1250}
+  width={1300}
+  height={1300}
   alt="feature coverage"
 />
 
@@ -124,13 +123,13 @@ exports[`renders correctly 1`] = `
 
 # Easy mocking
 
-<img src={featureMockingImg} width={1250} height={1250} alt="Easy mocking" />
+<img src={featureMockingImg} width={1300} height={1300} alt="Easy mocking" />
 
 ---
 
 # Community
 
-<img src={kentCDoddsImg} width={1250} height={1250} alt="Community" />
+<img src={kentCDoddsImg} width={1300} height={1300} alt="Community" />
 
 ---
 
@@ -146,7 +145,7 @@ exports[`renders correctly 1`] = `
 
 ---
 
-# Pyramid
+# Test pyramid
 
 <img src={testPyramidImg} width={1050} height={1000} alt="Community" />
 
@@ -530,148 +529,6 @@ exports[`renders correctly 1`] = `
     </Stack>
   </Stack>
 </Stack>
-```
-
-</Step>
-
-</CodeSurferColumns>
-
----
-
-<CodeSurferColumns themes={[vsDark, github]}>
-
-<Step>
-
-```js title="server.ts"
-import { setupServer } from "msw/node";
-
-const server = setupServer();
-
-export * from 'msw'
-export { server };
-
-```
-
-```jsx title="Wrapper.tsx"
-
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SnackbarProvider } from "notistack";
-
-type Props = {
-  children: string | JSX.Element | JSX.Element[];
-};
-
-const Wrapper = ({ children }: Props) => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retryDelay: 1,
-        retry: 0,
-      },
-    },
-  });
-
-  return (
-    <SnackbarProvider
-      maxSnack={3}
-      anchorOrigin={{ horizontal: "right", vertical: "top" }}
-    >
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </SnackbarProvider>
-  );
-};
-
-export default Wrapper;
-
-```
-
-</Step>
-
-</CodeSurferColumns>
-
----
-
-<CodeSurferColumns themes={[vsDark, github]}>
-
-<Step>
-
-
-
-```js title="jest.setup.ts"
-
-import 'whatwg-fetch'
-import { server } from './src/test/server'
-import '@testing-library/jest-dom';
-import * as dotenv from 'dotenv';
-
-dotenv.config({ path: '.env.testing' });
-
-jest.mock('next/navigation', () => require('next-router-mock'))
-jest.mock('next/router', () => require('next-router-mock'))
-jest.mock('next/dist/client/router', () => require('next-router-mock'))
-
-beforeAll(() => server.listen())
-// if you need to add a handler after calling setupServer for some specific test
-// this will remove that handler for the rest of them
-// (which is important for test isolation):
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
-
-```
-
-```js 48:48 title="jest.config.ts"
-
-import type { Config } from '@jest/types'
-
-const config: Config.InitialOptions = {
-  preset: 'ts-jest',
-  displayName: 'client',
-  testEnvironment: 'jest-environment-jsdom',
-  testEnvironmentOptions: {
-    customExportConditions: [] // don't load "browser" field
-  },
-  transformIgnorePatterns: [
-    '/node_modules/',
-    '^.+\\.module\\.(css|sass|scss)$'
-  ],
-  testPathIgnorePatterns: ['<rootDir>/node_modules/'],
-  
-  transform: {
-    // Use babel-jest to transpile tests with the next/babel preset
-    // https://jestjs.io/docs/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object
-    // '^.+\\.(js|jsx|ts|tsx)$': 'ts-jest',
-    '^.+\\.(js|jsx|ts|tsx)$': [
-      'ts-jest',
-      {
-        tsconfig: './tsconfig-test.json'
-      }
-    ]
-  },
-  
-  moduleNameMapper: {
-    // Handle CSS imports (with CSS modules)
-    // https://jestjs.io/docs/webpack#mocking-css-modules
-    '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
-
-    // Handle CSS imports (without CSS modules)
-    '^.+\\.(css|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
-
-    // Handle image imports
-    // https://jestjs.io/docs/webpack#handling-static-assets
-    '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i': `<rootDir>/__mocks__/fileMock.js`,
-
-    // Handle module aliases
-    '^@/(.*)$': '<rootDir>/src/$1',
-    '^@/types': '<rootDir>/src/types.d.ts',
-    '^@/theme': '<rootDir>/src/theme.ts'
-  },
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  setupFilesAfterEnv: ['./jest.setup.ts']
-}
-
-export default config
-
 ```
 
 </Step>
@@ -1582,6 +1439,30 @@ describe("login", () => {
 </CodeSurferColumns>
 
 ---
+
+# Best way to get an element?
+
+- getByLabelText
+- getByText
+- getByDisplayValue
+- getByPlaceholderText
+- getByRole
+
+
+don't use `getByTestId`
+
+
+---
+
+# How to test on backend ?
+
+- What to test?
+- How to test?
+- How to do e2e tests with docker ?
+
+---
+
+
 
 docs:  
 [codesurfer.pomb.us](https://codesurfer.pomb.us)
