@@ -10,6 +10,8 @@ import kentCDoddsImg from "./images/kent-c-dodds.png";
 import loginScreenImg from "./images/login-screen.png";
 import loginScreenRequiredInputImg from "./images/login-screen-required-input.png";
 import loginScreenOnchangeInputImg from "./images/login-screen-onchange-input.png";
+import swaggerApiImg from "./images/swagger-api.png";
+import sessionModuleImg from "./images/session-module.png";
 import { Intro } from "./components/Intro.js";
 
 export const theme = vsDark;
@@ -191,88 +193,84 @@ exports[`renders correctly 1`] = `
 <Step>
 
 ```jsx title="What to test?"
-    <Stack
-      height={"90vh"}
-      width={"100%"}
-      mb={3}
+<Stack
+  height={"90vh"}
+  width={"100%"}
+  mb={3}
+  display={"flex"}
+  justifyContent={"center"}
+  alignItems={"center"}
+>
+  <Stack
+    component={"form"}
+    display={"flex"}
+    justifyContent={"center"}
+    alignItems={"center"}
+    width={{ lg: "25%", md: "40%", xs: "78%" }}
+    onSubmit={handleSubmit(submit)}
+  >
+    <Typography
+      mb={5}
       display={"flex"}
-      justifyContent={"center"}
       alignItems={"center"}
+      justifyContent={"center"}
+      color={"primary"}
+      variant={mobile ? "h5" : "h4"}
+      textAlign={"center"}
     >
-      <Stack
-        component={"form"}
-        display={"flex"}
-        justifyContent={"center"}
-        alignItems={"center"}
-        width={{ lg: "25%", md: "40%", xs: "78%" }}
-        onSubmit={handleSubmit(submit)}
-      >
-        <Typography
-          mb={5}
-          display={"flex"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          color={"primary"}
-          variant={mobile ? "h5" : "h4"}
-          textAlign={"center"}
-        >
-          Jest everywhere
-        </Typography>
-        <Stack
-          width={"100%"}
-          spacing={2}
-          direction={{ xs: "column", sm: "column", md: "column" }}
-        >
-          <Input
-            name={"email"}
-            control={control}
-            label={"Email"}
-            rules={{
-              required: "Email é obrigatório",
-              pattern: {
-                value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-                message: "Digite um email válido",
-              },
-            }}
-          />
-          <Input
-            name={"password"}
-            control={control}
-            label={"Senha"}
-            type="password"
-            rules={{
-              required: "Senha é obrigatório",
-              minLength: {
-                value: 3,
-                message: "Digite pelo menos 3 caracteres",
-              },
-            }}
-          />
-        </Stack>
-        <Stack
-          width={"100%"}
-          mt={2}
-          direction={"row"}
-          sx={{ justifyContent: "space-between", alignItems: "center" }}
-        >
-          <Button
-            disabled={isLoading}
-            sx={{ height: 40, width: 160 }}
-            variant="contained"
-            type="submit"
-          >
-            {isLoading ? (
-              <CircularProgress color="primary" size={22} />
-            ) : (
-              "Entrar"
-            )}
-          </Button>
-          <Button variant="text" onClick={() => router.push("/register")}>
-            Cadastrar
-          </Button>
-        </Stack>
-      </Stack>
+      Jest everywhere
+    </Typography>
+    <Stack
+      width={"100%"}
+      spacing={2}
+      direction={{ xs: "column", sm: "column", md: "column" }}
+    >
+      <Input
+        name={"email"}
+        control={control}
+        label={"Email"}
+        rules={{
+          required: "Email é obrigatório",
+          pattern: {
+            value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+            message: "Digite um email válido",
+          },
+        }}
+      />
+      <Input
+        name={"password"}
+        control={control}
+        label={"Senha"}
+        type="password"
+        rules={{
+          required: "Senha é obrigatório",
+          minLength: {
+            value: 3,
+            message: "Digite pelo menos 3 caracteres",
+          },
+        }}
+      />
     </Stack>
+    <Stack
+      width={"100%"}
+      mt={2}
+      direction={"row"}
+      sx={{ justifyContent: "space-between", alignItems: "center" }}
+    >
+      <Button
+        disabled={isLoading}
+        sx={{ height: 40, width: 160 }}
+        variant="contained"
+        type="submit"
+      >
+        {isLoading ? <CircularProgress color="primary" size={22} /> : "Entrar"}
+      </Button>
+      <Button variant="text" onClick={() => router.push("/register")}>
+        Cadastrar
+      </Button>
+    </Stack>
+  </Stack>
+</Stack>
 ```
 
 </Step>
@@ -1434,7 +1432,6 @@ describe("login", () => {
 
 </Step>
 
-
 </CodeSurferColumns>
 
 ---
@@ -1445,11 +1442,6 @@ describe("login", () => {
 - getByText
 - getByDisplayValue
 - getByPlaceholderText
-- getByRole
-
-
-don't use `getByTestId`
-
 
 ---
 
@@ -1461,7 +1453,1247 @@ don't use `getByTestId`
 
 ---
 
+<CodeSurferColumns>
 
+<Step>
+
+```ts title="What to test ?" subtitle="session.controller.ts"
+import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
+import { SessionService } from "./session.service";
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+import {
+  ApiConflictResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from "@nestjs/swagger";
+import {
+  AuthUnauthorizedResponse,
+  AuthOkResponse,
+  AuthConflictResponse,
+} from "./swagger/auth.swagger";
+
+@Controller("session")
+@ApiTags("Session")
+export class SessionController {
+  constructor(private sessionService: SessionService) {}
+
+  @ApiOkResponse({ type: AuthOkResponse })
+  @ApiUnauthorizedResponse({ type: AuthUnauthorizedResponse })
+  @HttpCode(HttpStatus.OK)
+  @Post("signin")
+  signIn(@Body() body: LoginBodyDTO) {
+    const { email, password } = body;
+    return this.sessionService.signIn({ email, password });
+  }
+
+  @ApiOkResponse({ type: AuthOkResponse })
+  @ApiConflictResponse({ type: AuthConflictResponse })
+  @HttpCode(HttpStatus.OK)
+  @Post("register")
+  register(@Body() body: RegisterBodyDTO) {
+    const { email, password, name } = body;
+    return this.sessionService.register({ name, email, password });
+  }
+}
+```
+
+</Step>
+
+<Step>
+
+```ts 20:20 title="Providers"
+import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
+import { SessionService } from "./session.service";
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+import {
+  ApiConflictResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from "@nestjs/swagger";
+import {
+  AuthUnauthorizedResponse,
+  AuthOkResponse,
+  AuthConflictResponse,
+} from "./swagger/auth.swagger";
+
+@Controller("session")
+@ApiTags("Session")
+export class SessionController {
+  constructor(private sessionService: SessionService) {}
+
+  @ApiOkResponse({ type: AuthOkResponse })
+  @ApiUnauthorizedResponse({ type: AuthUnauthorizedResponse })
+  @HttpCode(HttpStatus.OK)
+  @Post("signin")
+  signIn(@Body() body: LoginBodyDTO) {
+    const { email, password } = body;
+    return this.sessionService.signIn({ email, password });
+  }
+
+  @ApiOkResponse({ type: AuthOkResponse })
+  @ApiConflictResponse({ type: AuthConflictResponse })
+  @HttpCode(HttpStatus.OK)
+  @Post("register")
+  register(@Body() body: RegisterBodyDTO) {
+    const { email, password, name } = body;
+    return this.sessionService.register({ name, email, password });
+  }
+}
+```
+
+</Step>
+
+<Step>
+
+```ts 25:30 title="Method"
+import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
+import { SessionService } from "./session.service";
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+import {
+  ApiConflictResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from "@nestjs/swagger";
+import {
+  AuthUnauthorizedResponse,
+  AuthOkResponse,
+  AuthConflictResponse,
+} from "./swagger/auth.swagger";
+
+@Controller("session")
+@ApiTags("Session")
+export class SessionController {
+  constructor(private sessionService: SessionService) {}
+
+  @ApiOkResponse({ type: AuthOkResponse })
+  @ApiUnauthorizedResponse({ type: AuthUnauthorizedResponse })
+  @HttpCode(HttpStatus.OK)
+  @Post("signin")
+  signIn(@Body() body: LoginBodyDTO) {
+    const { email, password } = body;
+    return this.sessionService.signIn({ email, password });
+  }
+
+  @ApiOkResponse({ type: AuthOkResponse })
+  @ApiConflictResponse({ type: AuthConflictResponse })
+  @HttpCode(HttpStatus.OK)
+  @Post("register")
+  register(@Body() body: RegisterBodyDTO) {
+    const { email, password, name } = body;
+    return this.sessionService.register({ name, email, password });
+  }
+}
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```ts title="How to test ?" subtitle="session.controller.spec.ts"
+import { SessionService } from "./session.service";
+import { SessionController } from "./session.controller";
+import { faker } from "@faker-js/faker";
+import { Test, TestingModule } from "@nestjs/testing";
+
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+
+describe("Session controller", () => {
+  let sessionController: SessionController;
+
+  const userMockSignIn: LoginBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
+
+  const userMockRegister: RegisterBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+  };
+
+  const sessionMockResponse = {
+    access_token: faker.string.uuid,
+    message: faker.internet.emoji,
+  };
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      controllers: [SessionController],
+      providers: [
+        {
+          provide: SessionService,
+          useValue: {
+            signIn: jest.fn().mockResolvedValue(sessionMockResponse),
+            register: jest.fn().mockResolvedValue(sessionMockResponse),
+          },
+        },
+      ],
+    }).compile();
+
+    sessionController = app.get<SessionController>(SessionController);
+  });
+
+  it("should return a success signIn", async () => {
+    const response = await sessionController.signIn(userMockSignIn);
+
+    expect(response).toEqual(sessionMockResponse);
+  });
+
+  it("should return a success register", async () => {
+    const response = await sessionController.register(userMockRegister);
+
+    expect(response).toEqual(sessionMockResponse);
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```ts 11:26 title="Mocks"
+import { SessionService } from "./session.service";
+import { SessionController } from "./session.controller";
+import { faker } from "@faker-js/faker";
+import { Test, TestingModule } from "@nestjs/testing";
+
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+
+describe("Session controller", () => {
+  let sessionController: SessionController;
+
+  const userMockSignIn: LoginBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
+
+  const userMockRegister: RegisterBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+  };
+
+  const sessionMockResponse = {
+    access_token: faker.string.uuid,
+    message: faker.internet.emoji,
+  };
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      controllers: [SessionController],
+      providers: [
+        {
+          provide: SessionService,
+          useValue: {
+            signIn: jest.fn().mockResolvedValue(sessionMockResponse),
+            register: jest.fn().mockResolvedValue(sessionMockResponse),
+          },
+        },
+      ],
+    }).compile();
+
+    sessionController = app.get<SessionController>(SessionController);
+  });
+
+  it("should return a success signIn", async () => {
+    const response = await sessionController.signIn(userMockSignIn);
+
+    expect(response).toEqual(sessionMockResponse);
+  });
+
+  it("should return a success register", async () => {
+    const response = await sessionController.register(userMockRegister);
+
+    expect(response).toEqual(sessionMockResponse);
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```ts 28:43 title="beforeEach"
+import { SessionService } from "./session.service";
+import { SessionController } from "./session.controller";
+import { faker } from "@faker-js/faker";
+import { Test, TestingModule } from "@nestjs/testing";
+
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+
+describe("Session controller", () => {
+  let sessionController: SessionController;
+
+  const userMockSignIn: LoginBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
+
+  const userMockRegister: RegisterBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+  };
+
+  const sessionMockResponse = {
+    access_token: faker.string.uuid,
+    message: faker.internet.emoji,
+  };
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      controllers: [SessionController],
+      providers: [
+        {
+          provide: SessionService,
+          useValue: {
+            signIn: jest.fn().mockResolvedValue(sessionMockResponse),
+            register: jest.fn().mockResolvedValue(sessionMockResponse),
+          },
+        },
+      ],
+    }).compile();
+
+    sessionController = app.get<SessionController>(SessionController);
+  });
+
+  it("should return a success signIn", async () => {
+    const response = await sessionController.signIn(userMockSignIn);
+
+    expect(response).toEqual(sessionMockResponse);
+  });
+
+  it("should return a success register", async () => {
+    const response = await sessionController.register(userMockRegister);
+
+    expect(response).toEqual(sessionMockResponse);
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```ts 45:50 title="Signin test"
+import { SessionService } from "./session.service";
+import { SessionController } from "./session.controller";
+import { faker } from "@faker-js/faker";
+import { Test, TestingModule } from "@nestjs/testing";
+
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+
+describe("Session controller", () => {
+  let sessionController: SessionController;
+
+  const userMockSignIn: LoginBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
+
+  const userMockRegister: RegisterBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+  };
+
+  const sessionMockResponse = {
+    access_token: faker.string.uuid,
+    message: faker.internet.emoji,
+  };
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      controllers: [SessionController],
+      providers: [
+        {
+          provide: SessionService,
+          useValue: {
+            signIn: jest.fn().mockResolvedValue(sessionMockResponse),
+            register: jest.fn().mockResolvedValue(sessionMockResponse),
+          },
+        },
+      ],
+    }).compile();
+
+    sessionController = app.get<SessionController>(SessionController);
+  });
+
+  it("should return a success signIn", async () => {
+    const response = await sessionController.signIn(userMockSignIn);
+
+    expect(response).toEqual(sessionMockResponse);
+  });
+
+  it("should return a success register", async () => {
+    const response = await sessionController.register(userMockRegister);
+
+    expect(response).toEqual(sessionMockResponse);
+  });
+});
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```ts title="What to test ?" subtitle="session.service.ts"
+import {
+  Injectable,
+  ConflictException,
+  BadRequestException,
+} from "@nestjs/common";
+import { UsersService } from "../users/users.service";
+import { JwtService } from "@nestjs/jwt";
+import * as bcrypt from "bcryptjs";
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+
+@Injectable()
+export class SessionService {
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService
+  ) {}
+
+  async signIn(data: LoginBodyDTO) {
+    const { email, password } = data;
+
+    const user = await this.usersService.findByEmail({ email });
+
+    if (!user) throw new BadRequestException("Email or password incorrect");
+
+    const correctPassword = bcrypt.compareSync(password, user.password);
+
+    if (!correctPassword) {
+      throw new BadRequestException("Email or password incorrect");
+    }
+
+    const payload = { id: user.id, username: user.name };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload, {
+        secret: process.env.JWT_SECRET,
+      }),
+      message: "Login com sucesso",
+    };
+  }
+
+  async register(data: RegisterBodyDTO) {
+    const { email, name, password } = data;
+
+    const userExist = await this.usersService.findByEmail({ email });
+
+    if (userExist) throw new ConflictException("Usuário já existe");
+
+    const user = await this.usersService.create({ email, name, password });
+
+    const payload = { id: user.id, username: user.name };
+    return {
+      access_token: await this.jwtService.signAsync(payload, {
+        secret: process.env.JWT_SECRET,
+      }),
+      message: "Registrado com sucesso",
+    };
+  }
+}
+```
+
+</Step>
+
+<Step>
+
+```ts 15:16 title="Providers"
+import {
+  Injectable,
+  ConflictException,
+  BadRequestException,
+} from "@nestjs/common";
+import { UsersService } from "../users/users.service";
+import { JwtService } from "@nestjs/jwt";
+import * as bcrypt from "bcryptjs";
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+
+@Injectable()
+export class SessionService {
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService
+  ) {}
+
+  async signIn(data: LoginBodyDTO) {
+    const { email, password } = data;
+
+    const user = await this.usersService.findByEmail({ email });
+
+    if (!user) throw new BadRequestException("Email or password incorrect");
+
+    const correctPassword = bcrypt.compareSync(password, user.password);
+
+    if (!correctPassword) {
+      throw new BadRequestException("Email or password incorrect");
+    }
+
+    const payload = { id: user.id, username: user.name };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload, {
+        secret: process.env.JWT_SECRET,
+      }),
+      message: "Login com sucesso",
+    };
+  }
+
+  async register(data: RegisterBodyDTO) {
+    const { email, name, password } = data;
+
+    const userExist = await this.usersService.findByEmail({ email });
+
+    if (userExist) throw new ConflictException("Usuário já existe");
+
+    const user = await this.usersService.create({ email, name, password });
+
+    const payload = { id: user.id, username: user.name };
+    return {
+      access_token: await this.jwtService.signAsync(payload, {
+        secret: process.env.JWT_SECRET,
+      }),
+      message: "Registrado com sucesso",
+    };
+  }
+}
+```
+
+</Step>
+
+<Step>
+
+```ts 19:40 title="Method"
+import {
+  Injectable,
+  ConflictException,
+  BadRequestException,
+} from "@nestjs/common";
+import { UsersService } from "../users/users.service";
+import { JwtService } from "@nestjs/jwt";
+import * as bcrypt from "bcryptjs";
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+
+@Injectable()
+export class SessionService {
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService
+  ) {}
+
+  async signIn(data: LoginBodyDTO) {
+    const { email, password } = data;
+
+    const user = await this.usersService.findByEmail({ email });
+
+    if (!user) throw new BadRequestException("Email or password incorrect");
+
+    const correctPassword = bcrypt.compareSync(password, user.password);
+
+    if (!correctPassword) {
+      throw new BadRequestException("Email or password incorrect");
+    }
+
+    const payload = { id: user.id, username: user.name };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload, {
+        secret: process.env.JWT_SECRET,
+      }),
+      message: "Login com sucesso",
+    };
+  }
+
+  async register(data: RegisterBodyDTO) {
+    const { email, name, password } = data;
+
+    const userExist = await this.usersService.findByEmail({ email });
+
+    if (userExist) throw new ConflictException("Usuário já existe");
+
+    const user = await this.usersService.create({ email, name, password });
+
+    const payload = { id: user.id, username: user.name };
+    return {
+      access_token: await this.jwtService.signAsync(payload, {
+        secret: process.env.JWT_SECRET,
+      }),
+      message: "Registrado com sucesso",
+    };
+  }
+}
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```ts title="How to test ?" subtitle="session.service.spec.ts"
+import { SessionService } from "./session.service";
+import { faker } from "@faker-js/faker";
+import { Test, TestingModule } from "@nestjs/testing";
+import * as bcrypt from "bcryptjs";
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+import { UsersService } from "../users/users.service";
+import { BadRequestException, ConflictException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+
+describe("Session service", () => {
+  let sessionService: SessionService;
+  let usersService: UsersService;
+
+  const userMock = {
+    id: faker.number.int(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+    createdAt: faker.date.anytime(),
+    updatedAt: faker.date.anytime(),
+  };
+
+  const userMockSignIn: LoginBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
+
+  const userMockRegister: RegisterBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+  };
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      providers: [
+        SessionService,
+        JwtService,
+        {
+          provide: UsersService,
+          useValue: {
+            findByEmail: jest.fn(),
+            create: jest.fn(),
+          },
+        },
+      ],
+    }).compile();
+
+    sessionService = app.get<SessionService>(SessionService);
+    usersService = app.get<UsersService>(UsersService);
+  });
+
+  it("should return a success signIn", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = await sessionService.signIn(userMockSignIn);
+
+    expect(response.access_token).toBeTruthy();
+    expect(response.message).toBe("Login com sucesso");
+  });
+
+  it("should return signIn with incorrect email", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => null);
+
+    const response = sessionService.signIn(userMockSignIn);
+
+    await expect(response).rejects.toEqual(
+      new BadRequestException("Email or password incorrect")
+    );
+  });
+
+  it("should return signIn with incorrect password", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(false);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = sessionService.signIn(userMockSignIn);
+
+    await expect(response).rejects.toEqual(
+      new BadRequestException("Email or password incorrect")
+    );
+  });
+
+  it("should return successful register", async () => {
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => null);
+
+    jest.spyOn(usersService, "create").mockImplementation(async () => userMock);
+
+    const response = await sessionService.register(userMockRegister);
+
+    expect(response.access_token).toBeTruthy();
+    expect(response.message).toBe("Registrado com sucesso");
+  });
+
+  it("should return an existing user", async () => {
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = sessionService.register(userMockRegister);
+
+    await expect(response).rejects.toEqual(
+      new ConflictException("Usuário já existe")
+    );
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```ts 15:33 title="Mocks"
+import { SessionService } from "./session.service";
+import { faker } from "@faker-js/faker";
+import { Test, TestingModule } from "@nestjs/testing";
+import * as bcrypt from "bcryptjs";
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+import { UsersService } from "../users/users.service";
+import { BadRequestException, ConflictException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+
+describe("Session service", () => {
+  let sessionService: SessionService;
+  let usersService: UsersService;
+
+  const userMock = {
+    id: faker.number.int(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+    createdAt: faker.date.anytime(),
+    updatedAt: faker.date.anytime(),
+  };
+
+  const userMockSignIn: LoginBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
+
+  const userMockRegister: RegisterBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+  };
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      providers: [
+        SessionService,
+        JwtService,
+        {
+          provide: UsersService,
+          useValue: {
+            findByEmail: jest.fn(),
+            create: jest.fn(),
+          },
+        },
+      ],
+    }).compile();
+
+    sessionService = app.get<SessionService>(SessionService);
+    usersService = app.get<UsersService>(UsersService);
+  });
+
+  it("should return a success signIn", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = await sessionService.signIn(userMockSignIn);
+
+    expect(response.access_token).toBeTruthy();
+    expect(response.message).toBe("Login com sucesso");
+  });
+
+  it("should return signIn with incorrect email", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => null);
+
+    const response = sessionService.signIn(userMockSignIn);
+
+    await expect(response).rejects.toEqual(
+      new BadRequestException("Email or password incorrect")
+    );
+  });
+
+  it("should return signIn with incorrect password", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(false);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = sessionService.signIn(userMockSignIn);
+
+    await expect(response).rejects.toEqual(
+      new BadRequestException("Email or password incorrect")
+    );
+  });
+
+  it("should return successful register", async () => {
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => null);
+
+    jest.spyOn(usersService, "create").mockImplementation(async () => userMock);
+
+    const response = await sessionService.register(userMockRegister);
+
+    expect(response.access_token).toBeTruthy();
+    expect(response.message).toBe("Registrado com sucesso");
+  });
+
+  it("should return an existing user", async () => {
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = sessionService.register(userMockRegister);
+
+    await expect(response).rejects.toEqual(
+      new ConflictException("Usuário já existe")
+    );
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```ts 35:52 title="beforeEach"
+import { SessionService } from "./session.service";
+import { faker } from "@faker-js/faker";
+import { Test, TestingModule } from "@nestjs/testing";
+import * as bcrypt from "bcryptjs";
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+import { UsersService } from "../users/users.service";
+import { BadRequestException, ConflictException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+
+describe("Session service", () => {
+  let sessionService: SessionService;
+  let usersService: UsersService;
+
+  const userMock = {
+    id: faker.number.int(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+    createdAt: faker.date.anytime(),
+    updatedAt: faker.date.anytime(),
+  };
+
+  const userMockSignIn: LoginBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
+
+  const userMockRegister: RegisterBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+  };
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      providers: [
+        SessionService,
+        JwtService,
+        {
+          provide: UsersService,
+          useValue: {
+            findByEmail: jest.fn(),
+            create: jest.fn(),
+          },
+        },
+      ],
+    }).compile();
+
+    sessionService = app.get<SessionService>(SessionService);
+    usersService = app.get<UsersService>(UsersService);
+  });
+
+  it("should return a success signIn", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = await sessionService.signIn(userMockSignIn);
+
+    expect(response.access_token).toBeTruthy();
+    expect(response.message).toBe("Login com sucesso");
+  });
+
+  it("should return signIn with incorrect email", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => null);
+
+    const response = sessionService.signIn(userMockSignIn);
+
+    await expect(response).rejects.toEqual(
+      new BadRequestException("Email or password incorrect")
+    );
+  });
+
+  it("should return signIn with incorrect password", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(false);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = sessionService.signIn(userMockSignIn);
+
+    await expect(response).rejects.toEqual(
+      new BadRequestException("Email or password incorrect")
+    );
+  });
+
+  it("should return successful register", async () => {
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => null);
+
+    jest.spyOn(usersService, "create").mockImplementation(async () => userMock);
+
+    const response = await sessionService.register(userMockRegister);
+
+    expect(response.access_token).toBeTruthy();
+    expect(response.message).toBe("Registrado com sucesso");
+  });
+
+  it("should return an existing user", async () => {
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = sessionService.register(userMockRegister);
+
+    await expect(response).rejects.toEqual(
+      new ConflictException("Usuário já existe")
+    );
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```ts 53:65 title="Success sign in"
+import { SessionService } from "./session.service";
+import { faker } from "@faker-js/faker";
+import { Test, TestingModule } from "@nestjs/testing";
+import * as bcrypt from "bcryptjs";
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+import { UsersService } from "../users/users.service";
+import { BadRequestException, ConflictException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+
+describe("Session service", () => {
+  let sessionService: SessionService;
+  let usersService: UsersService;
+
+  const userMock = {
+    id: faker.number.int(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+    createdAt: faker.date.anytime(),
+    updatedAt: faker.date.anytime(),
+  };
+
+  const userMockSignIn: LoginBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
+
+  const userMockRegister: RegisterBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+  };
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      providers: [
+        SessionService,
+        JwtService,
+        {
+          provide: UsersService,
+          useValue: {
+            findByEmail: jest.fn(),
+            create: jest.fn(),
+          },
+        },
+      ],
+    }).compile();
+
+    sessionService = app.get<SessionService>(SessionService);
+    usersService = app.get<UsersService>(UsersService);
+  });
+
+  it("should return a success signIn", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = await sessionService.signIn(userMockSignIn);
+
+    expect(response.access_token).toBeTruthy();
+    expect(response.message).toBe("Login com sucesso");
+  });
+
+  it("should return signIn with incorrect email", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => null);
+
+    const response = sessionService.signIn(userMockSignIn);
+
+    await expect(response).rejects.toEqual(
+      new BadRequestException("Email or password incorrect")
+    );
+  });
+
+  it("should return signIn with incorrect password", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(false);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = sessionService.signIn(userMockSignIn);
+
+    await expect(response).rejects.toEqual(
+      new BadRequestException("Email or password incorrect")
+    );
+  });
+
+  it("should return successful register", async () => {
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => null);
+
+    jest.spyOn(usersService, "create").mockImplementation(async () => userMock);
+
+    const response = await sessionService.register(userMockRegister);
+
+    expect(response.access_token).toBeTruthy();
+    expect(response.message).toBe("Registrado com sucesso");
+  });
+
+  it("should return an existing user", async () => {
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = sessionService.register(userMockRegister);
+
+    await expect(response).rejects.toEqual(
+      new ConflictException("Usuário já existe")
+    );
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```ts 66:80 title="Error sign in"
+import { SessionService } from "./session.service";
+import { faker } from "@faker-js/faker";
+import { Test, TestingModule } from "@nestjs/testing";
+import * as bcrypt from "bcryptjs";
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+import { UsersService } from "../users/users.service";
+import { BadRequestException, ConflictException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+
+describe("Session service", () => {
+  let sessionService: SessionService;
+  let usersService: UsersService;
+
+  const userMock = {
+    id: faker.number.int(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+    createdAt: faker.date.anytime(),
+    updatedAt: faker.date.anytime(),
+  };
+
+  const userMockSignIn: LoginBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
+
+  const userMockRegister: RegisterBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+  };
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      providers: [
+        SessionService,
+        JwtService,
+        {
+          provide: UsersService,
+          useValue: {
+            findByEmail: jest.fn(),
+            create: jest.fn(),
+          },
+        },
+      ],
+    }).compile();
+
+    sessionService = app.get<SessionService>(SessionService);
+    usersService = app.get<UsersService>(UsersService);
+  });
+
+  it("should return a success signIn", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = await sessionService.signIn(userMockSignIn);
+
+    expect(response.access_token).toBeTruthy();
+    expect(response.message).toBe("Login com sucesso");
+  });
+
+  it("should return signIn with incorrect email", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => null);
+
+    const response = sessionService.signIn(userMockSignIn);
+
+    await expect(response).rejects.toEqual(
+      new BadRequestException("Email or password incorrect")
+    );
+  });
+
+  it("should return signIn with incorrect password", async () => {
+    bcrypt.compareSync = jest.fn().mockReturnValueOnce(false);
+
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = sessionService.signIn(userMockSignIn);
+
+    await expect(response).rejects.toEqual(
+      new BadRequestException("Email or password incorrect")
+    );
+  });
+
+  it("should return successful register", async () => {
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => null);
+
+    jest.spyOn(usersService, "create").mockImplementation(async () => userMock);
+
+    const response = await sessionService.register(userMockRegister);
+
+    expect(response.access_token).toBeTruthy();
+    expect(response.message).toBe("Registrado com sucesso");
+  });
+
+  it("should return an existing user", async () => {
+    jest
+      .spyOn(usersService, "findByEmail")
+      .mockImplementation(async () => userMock);
+
+    const response = sessionService.register(userMockRegister);
+
+    await expect(response).rejects.toEqual(
+      new ConflictException("Usuário já existe")
+    );
+  });
+});
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
 
 docs:  
 [codesurfer.pomb.us](https://codesurfer.pomb.us)
