@@ -1,5 +1,4 @@
 import { SessionService } from './session.service'
-import { SessionController } from './session.controller'
 import { faker } from '@faker-js/faker'
 import { Test, TestingModule } from '@nestjs/testing';
 import * as bcrypt from 'bcryptjs';
@@ -7,7 +6,7 @@ import { LoginBodyDTO } from './dtos/login-body.dto';
 import { RegisterBodyDTO } from './dtos/register-body.dto';
 import { UsersService } from '../users/users.service';
 import { BadRequestException, ConflictException } from '@nestjs/common';
-import { SessionModule } from './session.module';
+import { JwtService } from '@nestjs/jwt';
 
 
 describe('Session service', () => {
@@ -36,7 +35,13 @@ describe('Session service', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [SessionModule],
+      providers: [SessionService, JwtService, {
+        provide: UsersService,
+        useValue: {
+          findByEmail: jest.fn(),
+          create: jest.fn()
+        }
+      }],
     }).compile();
 
     sessionService = app.get<SessionService>(SessionService);
@@ -47,7 +52,8 @@ describe('Session service', () => {
   it('should return a success signIn', async () => {
 
     bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
-    usersService.findByEmail = jest.fn().mockReturnValueOnce(userMock);
+
+    jest.spyOn(usersService, 'findByEmail').mockImplementation(async () => userMock)
 
     const response = await sessionService.signIn(userMockSignIn)
 
@@ -60,7 +66,7 @@ describe('Session service', () => {
 
     bcrypt.compareSync = jest.fn().mockReturnValueOnce(true);
 
-    usersService.findByEmail = jest.fn().mockReturnValueOnce(null);
+    jest.spyOn(usersService, 'findByEmail').mockImplementation(async () => null)
 
     const response = sessionService.signIn(userMockSignIn)
 
@@ -72,7 +78,8 @@ describe('Session service', () => {
 
     bcrypt.compareSync = jest.fn().mockReturnValueOnce(false);
 
-    usersService.findByEmail = jest.fn().mockReturnValueOnce(userMock);
+    jest.spyOn(usersService, 'findByEmail').mockImplementation(async () => userMock)
+
 
     const response = sessionService.signIn(userMockSignIn)
 
@@ -82,9 +89,9 @@ describe('Session service', () => {
 
   it('should return successful register', async () => {
 
-    usersService.findByEmail = jest.fn().mockReturnValueOnce(null);
+    jest.spyOn(usersService, 'findByEmail').mockImplementation(async () => null)
 
-    usersService.create = jest.fn().mockReturnValueOnce(userMock);
+    jest.spyOn(usersService, 'create').mockImplementation(async () => userMock)
 
     const response = await sessionService.register(userMockRegister)
 
@@ -95,7 +102,8 @@ describe('Session service', () => {
 
   it('should return an existing user', async () => {
 
-    usersService.findByEmail = jest.fn().mockReturnValueOnce(userMock);
+    jest.spyOn(usersService, 'findByEmail').mockImplementation(async () => userMock)
+
 
     const response = sessionService.register(userMockRegister)
 
