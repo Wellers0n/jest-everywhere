@@ -1664,7 +1664,70 @@ describe("Session controller", () => {
 
 <Step>
 
-```ts 11:26 title="Mocks"
+```ts 11:15 title="User mocks"
+import { SessionService } from "./session.service";
+import { SessionController } from "./session.controller";
+import { faker } from "@faker-js/faker";
+import { Test, TestingModule } from "@nestjs/testing";
+
+import { LoginBodyDTO } from "./dtos/login-body.dto";
+import { RegisterBodyDTO } from "./dtos/register-body.dto";
+
+describe("Session controller", () => {
+  let sessionController: SessionController;
+
+  const userMockSignIn: LoginBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
+
+  const userMockRegister: RegisterBodyDTO = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    name: faker.internet.userName(),
+  };
+
+  const sessionMockResponse = {
+    access_token: faker.string.uuid,
+    message: faker.internet.emoji,
+  };
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      controllers: [SessionController],
+      providers: [
+        {
+          provide: SessionService,
+          useValue: {
+            signIn: jest.fn().mockResolvedValue(sessionMockResponse),
+            register: jest.fn().mockResolvedValue(sessionMockResponse),
+          },
+        },
+      ],
+    }).compile();
+
+    sessionController = app.get<SessionController>(SessionController);
+  });
+
+  it("should return a success signIn", async () => {
+    const response = await sessionController.signIn(userMockSignIn);
+
+    expect(response).toEqual(sessionMockResponse);
+  });
+
+  it("should return a success register", async () => {
+    const response = await sessionController.register(userMockRegister);
+
+    expect(response).toEqual(sessionMockResponse);
+  });
+});
+```
+
+</Step>
+
+<Step>
+
+```ts 23:26 title="Response mocks"
 import { SessionService } from "./session.service";
 import { SessionController } from "./session.controller";
 import { faker } from "@faker-js/faker";
@@ -2189,7 +2252,7 @@ describe("Session service", () => {
 
 <Step>
 
-```ts 15:33 title="Mocks"
+```ts 15:27 title="Mocks"
 import { SessionService } from "./session.service";
 import { faker } from "@faker-js/faker";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -3283,5 +3346,50 @@ describe("session login (e2e)", () => {
 
 ---
 
-docs:  
-[codesurfer.pomb.us](https://codesurfer.pomb.us)
+<CodeSurferColumns>
+
+<Step>
+
+```yml title="docker-compose-yml"
+
+version: '3.7'
+services:
+  postgres-test-db:
+    container_name: postgres-test-db
+    image: postgres:alpine
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=test
+    logging:
+        options:
+          max-size: 10m
+          max-file: "3"
+    networks:
+      - network-test-db
+
+networks:
+  network-test-db:
+    driver: bridge
+
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+
+---
+
+# Articles
+
+- [What to test in the frontend](https://dev.to/woovi/what-to-test-in-the-frontend-50a)
+- [What to test in the backend](https://dev.to/woovi/what-to-test-in-the-backend--1l44)
+
+---
+
+
+# Thanks
