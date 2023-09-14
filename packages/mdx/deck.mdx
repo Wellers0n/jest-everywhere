@@ -1907,7 +1907,7 @@ describe("Session service", () => {
       providers: [
         SessionService,
         {
-          prodider: JwtService
+          provide: JwtService
           useValue: {
             signAsync: jest.fn().mockReturnValueOnce(faker.string.uuid())
           }
@@ -2038,7 +2038,7 @@ describe("Session service", () => {
       providers: [
         SessionService,
         {
-          prodider: JwtService
+          provide: JwtService
           useValue: {
             signAsync: jest.fn().mockReturnValueOnce(faker.string.uuid())
           }
@@ -2169,7 +2169,7 @@ describe("Session service", () => {
       providers: [
         SessionService,
         {
-          prodider: JwtService
+          provide: JwtService
           useValue: {
             signAsync: jest.fn().mockReturnValueOnce(faker.string.uuid())
           }
@@ -2300,7 +2300,7 @@ describe("Session service", () => {
       providers: [
         SessionService,
         {
-          prodider: JwtService
+          provide: JwtService
           useValue: {
             signAsync: jest.fn().mockReturnValueOnce(faker.string.uuid())
           }
