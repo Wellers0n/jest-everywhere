@@ -1906,7 +1906,12 @@ describe("Session service", () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
         SessionService,
-        JwtService,
+        {
+          prodider: JwtService
+          useValue: {
+            signAsync: jest.fn().mockReturnValueOnce(faker.string.uuid())
+          }
+        },
         {
           provide: UsersService,
           useValue: {
@@ -1993,7 +1998,7 @@ describe("Session service", () => {
 
 <Step>
 
-```ts 35:52 title="beforeEach"
+```ts 35:57 title="beforeEach"
 import { SessionService } from "./session.service";
 import { faker } from "@faker-js/faker";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -2032,7 +2037,12 @@ describe("Session service", () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
         SessionService,
-        JwtService,
+        {
+          prodider: JwtService
+          useValue: {
+            signAsync: jest.fn().mockReturnValueOnce(faker.string.uuid())
+          }
+        },
         {
           provide: UsersService,
           useValue: {
@@ -2119,7 +2129,7 @@ describe("Session service", () => {
 
 <Step>
 
-```ts 53:65 title="Success sign in"
+```ts 59:70 title="Success sign in"
 import { SessionService } from "./session.service";
 import { faker } from "@faker-js/faker";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -2158,7 +2168,12 @@ describe("Session service", () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
         SessionService,
-        JwtService,
+        {
+          prodider: JwtService
+          useValue: {
+            signAsync: jest.fn().mockReturnValueOnce(faker.string.uuid())
+          }
+        },
         {
           provide: UsersService,
           useValue: {
@@ -2245,7 +2260,7 @@ describe("Session service", () => {
 
 <Step>
 
-```ts 66:80 title="Error sign in"
+```ts 72:85 title="Error sign in"
 import { SessionService } from "./session.service";
 import { faker } from "@faker-js/faker";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -2284,7 +2299,12 @@ describe("Session service", () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
         SessionService,
-        JwtService,
+        {
+          prodider: JwtService
+          useValue: {
+            signAsync: jest.fn().mockReturnValueOnce(faker.string.uuid())
+          }
+        },
         {
           provide: UsersService,
           useValue: {
